@@ -398,14 +398,13 @@
 
     <div class="project-card" onclick="openProject('plc')">
       <div class="project-media">
-        <!-- 📸 <img src="plc.jpg" alt="PLC Project"> -->
-<img src="images/19-PLC.jpg" alt="PLC Project">
+        <img src="images/19-PLC.jpg" alt="PLC - Industrial Controller">
       </div>
       <div class="project-body">
-        <div class="ongoing-badge"><span class="ongoing-dot"></span>ONGOING — R&amp;D</div>
-        <div class="project-title">Industrial Controller (ESP32 PLC)</div>
-        <p class="project-desc">Custom industrial controller with Ladder Diagram programming on ESP32 — open-source logic engine modified for real-time control.</p>
-        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag orange">Ladder Logic</span><span class="tag purple">C++</span><span class="tag purple">PCB Design</span></div>
+        <div class="project-type">Industrial Product</div>
+        <div class="project-title">PLC - Industrial Controller</div>
+        <p class="project-desc">A fully locally-manufactured industrial PLC — industrial-grade PCB hardened for EMC, 8 inputs &amp; 8 outputs, and Modbus wiring for HMI / SCADA. Built-in 3D-printed enclosure, its own Ladder-programming IDE and mobile control.</p>
+        <div class="skill-tags"><span class="tag purple">Soldering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">ESP32</span><span class="tag orange">3D Design</span><span class="tag orange">Industrial Grade</span></div>
         <p class="project-hint">→ CLICK FOR PREVIEW</p>
       </div>
     </div>
@@ -419,7 +418,7 @@
         <div class="project-type">PCB Design</div>
         <div class="project-title">Custom Smart Home System</div>
         <p class="project-desc">ESP32-based controller with 8-channel relay interface on custom PCB. Remote access and full home appliance automation.</p>
-        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">Altium</span><span class="tag">MQTT</span><span class="tag orange">Relay Control</span></div>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">KiCad</span><span class="tag">MQTT</span><span class="tag orange">Relay Control</span><span class="tag purple">PCB Design</span><span class="tag orange">Simulation</span><span class="tag orange">Soldering</span></div>
         <p class="project-hint">→ CLICK FOR PREVIEW</p>
       </div>
     </div>
@@ -462,6 +461,58 @@
         <div class="project-title">ROV — Underwater Detection </div>
         <p class="project-desc">CV modules for underwater object detection and navigation. Part of SCU Racing Team ROV that won 1st place.</p>
         <div class="skill-tags"><span class="tag purple">Python</span><span class="tag orange">Raspberry Pi</span><span class="tag">OpenCV</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('classic')">
+      <div class="project-media">
+<img src="images/38-classic.jpg" alt="Smart Classic Control Panel">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Industrial Automation</div>
+        <div class="project-title">Smart Classic Control Panel</div>
+        <p class="project-desc">ESP32 + relay module that lets you operate a classic control panel from your mobile — remote start/stop and monitoring of a conventional electromechanical circuit.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag orange">Relay Module</span><span class="tag">Mobile Control</span><span class="tag purple">Classic Control</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('ices')">
+      <div class="project-media">
+<img src="images/39- ICES.jpg" alt="Cold Storage Monitoring System">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Industrial IoT</div>
+        <div class="project-title">Cold Storage Monitoring &amp; Control</div>
+        <p class="project-desc">Dual ESP32 boards read industrial temperature sensors and fault-lamp signals from large fruit cold-storage control panels — with remote control and instant fault alerts.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag orange">Industrial Sensors</span><span class="tag">Mobile App</span><span class="tag purple">3D Enclosure</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('stardelta')">
+      <div class="project-media">
+<img src="images/39-star delta.jpg" alt="Star-Delta Starter Control Panel">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Classic Control</div>
+        <div class="project-title">Star-Delta Starter Control Panel</div>
+        <p class="project-desc">A classic motor-control panel for star-delta starting — contactors, timer and overload relay protecting a 3-phase induction motor from high inrush current.</p>
+        <div class="skill-tags"><span class="tag orange">Contactors</span><span class="tag purple">Timer</span><span class="tag">Motor Starter</span><span class="tag orange">Wiring</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('devkit')">
+      <div class="project-media">
+<img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit">
+      </div>
+      <div class="project-body">
+        <div class="project-type">PCB Design</div>
+        <div class="project-title">ESP32 DevKit Board</div>
+        <p class="project-desc">A customized ESP32 development board mirroring the original DevKit — with automatic (one-wire) programming that removes the need to hold the BOOT button.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">Auto-programming</span><span class="tag">USB-UART</span><span class="tag purple">KiCad</span></div>
         <p class="project-hint">→ CLICK FOR PREVIEW</p>
       </div>
     </div>
@@ -715,35 +766,35 @@
 <img src="images/19-PLC.jpg" alt="PLC Project">
     </div>
     <div class="popup-body">
-      <div class="ongoing-badge" style="margin-bottom:0.8rem"><span class="ongoing-dot"></span>ONGOING — R&amp;D PHASE</div>
-      <div class="popup-title">Industrial Controller — ESP32 PLC</div>
+      <div class="popup-type">INDUSTRIAL PRODUCT</div>
+      <div class="popup-title">PLC — Industrial Controller</div>
       <div class="popup-desc">
-        <p>A custom industrial controller bringing PLC-grade functionality to ESP32 at a fraction of commercial system costs.</p>
-        <p><strong>Progress so far:</strong></p>
+        <p>A locally-manufactured industrial PLC designed and built end-to-end from scratch — a complete product rather than a prototype. The custom PCB is engineered to industrial-grade standards so it withstands EMC interference and the rough conditions of a factory floor.</p>
         <ul>
-          <li>✅ PCB fully designed in Altium Designer — layout complete, not yet fabricated</li>
-          <li>✅ Custom Ladder Diagram (LDR) software developed — similar to TIA Portal / Unity Pro</li>
-          <li>🔄 R&amp;D phase — open-source logic engine modified for ESP32 real-time execution</li>
-          <li>🔄 Final product not yet released</li>
+          <li>Custom industrial-grade PCB — routed for EMC immunity and heavy factory-duty operation</li>
+          <li>8 digital inputs &amp; 8 digital outputs for real-world process control</li>
+          <li>Modbus communication to interface directly with HMI panels and SCADA / DCS networks</li>
+          <li>Full custom programming IDE — a Ladder Diagram suit resembling TIA Portal, Codesys-style editors</li>
+          <li>3D-printed enclosure designed and printed in-house for reliable installation</li>
+          <li>Remote operation via mobile app plus full SCADA network integration</li>
         </ul>
+        <p>From PCB layout to the programming environment, the entire control stack is engineered as a complete commercial-grade product.</p>
       </div>
       <div class="photos-label-sm">MORE PHOTOS</div>
       <div class="popup-photos">
-        <!-- 📸 <img src="plc-pcb.jpg"> -->
-<div class="popup-photo-slot"><img src="images/35-PLC.jpg" alt="PCB"></div>
-<div class="popup-photo-slot"><img src="images/36-PLC.jpg" alt="PCB"></div>
-<div class="popup-photo-slot"><img src="images/37-PLC.jpg" alt="PCB"></div>
-
-<div class="popup-photo-slot"><img src="images/20-PLC.PNG" alt="PCB"></div>
-<div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
-<iframe 
-  src="https://www.youtube.com/embed/n8FUGgeDqWc"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
-</div>
-      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Ladder Logic</span><span class="tag purple">C++</span><span class="tag purple">Altium PCB</span></div>
+        <div class="popup-photo-slot"><img src="images/35-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/36-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/37-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/20-PLC.PNG" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
+        <iframe 
+          src="https://www.youtube.com/embed/n8FUGgeDqWc"
+          frameborder="0" 
+          allowfullscreen
+          style="width:100%;height:100%">
+        </iframe>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Soldering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">ESP32</span><span class="tag orange">3D Design</span><span class="tag orange">Industrial Grade</span></div>
     </div>
   </div>
 </div>
@@ -760,7 +811,7 @@
       <div class="popup-desc">
         <p>A complete smart home controller on custom PCB — ESP32 brain with 8-channel relay for full appliance control.</p>
         <ul>
-          <li>Custom PCB designed in Altium — compact, noise-resistant layout</li>
+          <li>Custom PCB designed in KiCad — compact, noise-resistant layout</li>
           <li>8-channel relay for lights, fans, and other appliances</li>
           <li>Remote access via ESP RainMaker / Blynk cloud</li>
           <li>Automation logic: schedules, scenes, condition-based triggers</li>
@@ -778,7 +829,7 @@
   style="width:100%;height:100%">
 </iframe>
 </div>
-      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">Altium</span><span class="tag">MQTT</span><span class="tag orange">8-ch Relay</span></div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">KiCad</span><span class="tag">MQTT</span><span class="tag orange">8-ch Relay</span><span class="tag purple">PCB Design</span><span class="tag orange">Simulation</span><span class="tag orange">Soldering</span></div>
     </div>
   </div>
 </div>
@@ -875,6 +926,128 @@
 </iframe>
 </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Python</span><span class="tag orange">Raspberry Pi</span><span class="tag">OpenCV</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-classic" onclick="closeOutside(event,'classic')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('classic')">✕</button>
+    <div class="popup-media">
+<img src="images/38-classic.jpg" alt="Smart Classic Control Panel">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">INDUSTRIAL AUTOMATION</div>
+      <div class="popup-title">Smart Classic Control Panel</div>
+      <div class="popup-desc">
+        <p>A retro-modern approach to classic control — this project lets a conventional electromechanical control panel be operated directly from a mobile phone.</p>
+        <ul>
+          <li>ESP32 brain driving a relay module to switch the existing classic control circuit</li>
+          <li>Mobile app for remote start / stop and quick status monitoring</li>
+          <li>Keeps the original panel intact — smart action in parallel, with automation logic</li>
+          <li>Pair of digital inputs used for panel feedback (running / stopped)</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<iframe 
+  src="https://www.youtube.com/embed/5_l7fvHgvWA"
+  frameborder="0" 
+  allowfullscreen
+  style="width:100%;height:100%">
+</iframe>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Relay Module</span><span class="tag">Mobile Control</span><span class="tag purple">Classic Control</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-ices" onclick="closeOutside(event,'ices')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('ices')">✕</button>
+    <div class="popup-media">
+<img src="images/39- ICES.jpg" alt="Cold Storage Monitoring System">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">INDUSTRIAL IOT</div>
+      <div class="popup-title">Cold Storage Monitoring &amp; Control</div>
+      <div class="popup-desc">
+        <p>Monitoring and control for large fruit cold-storage facilities. Two custom ESP32 PCBs are installed on the giant control panels that watch the chamber — one actively reading every fault lamp, the other tracking temperature from industrial sensors while controlling the whole power feed.</p>
+        <ul>
+          <li>Two custom ESP32 boards — fault detection + temperature / power control</li>
+          <li>Reads industrial temperature sensors and indicator-lamp signals from the panel</li>
+          <li>Full system control: power ON / OFF and cooling control loop</li>
+          <li>Mobile application with real-time monitoring and instant fault notifications</li>
+          <li>Custom 3D-printed enclosures designed for the panel environment</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/39- ICES.jpg" alt="Cold Storage"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Industrial Sensors</span><span class="tag">Mobile App</span><span class="tag purple">3D Enclosure</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-stardelta" onclick="closeOutside(event,'stardelta')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('stardelta')">✕</button>
+    <div class="popup-media">
+<img src="images/39-star delta.jpg" alt="Star-Delta Starter Control Panel">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">CLASSIC CONTROL</div>
+      <div class="popup-title">Star-Delta Starter Control Panel</div>
+      <div class="popup-desc">
+        <p>A star-delta starter protects large 3-phase induction motors at start-up. Windings first connect in star (Y) — lowering starting voltage and inrush current — then switch to delta for full-power running, all timed automatically.</p>
+        <ul>
+          <li>Contactors for star, delta and main line switching</li>
+          <li>Timer-based automatic transition from star to delta</li>
+          <li>Overload relay protecting the motor from sustained overcurrent</li>
+          <li>Neat panel wiring, indicators and start / stop control</li>
+        </ul>
+        <p>This panel is a classic-control build focused on reliable, safe motor starting in industrial applications.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<iframe 
+  src="https://www.youtube.com/embed/ICle2c08i5g"
+  frameborder="0" 
+  allowfullscreen
+  style="width:100%;height:100%">
+</iframe>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag orange">Contactors</span><span class="tag purple">Timer</span><span class="tag">Motor Starter</span><span class="tag orange">Wiring</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-devkit" onclick="closeOutside(event,'devkit')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('devkit')">✕</button>
+    <div class="popup-media">
+<img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">PCB DESIGN</div>
+      <div class="popup-title">ESP32 DevKit Board</div>
+      <div class="popup-desc">
+        <p>A custom development board built to mirror the original ESP32 DevKit — engineered in KiCad with its own USB-UART and an automatic programming circuit.</p>
+        <ul>
+          <li>ESP32-WROOM module with the classic 2×20 pinout — GPIO, power and boot pins</li>
+          <li>Onboard USB-UART bridge (CP2102-class) fed through automatic boot circuitry</li>
+          <li>Auto-programming: connect a cable and flash — no need to hold the BOOT button</li>
+          <li>Onboard 3.3 V regulation with stable power path</li>
+          <li>Boot / EN / RESET controls and status LED indicators</li>
+        </ul>
+        <p>Built to spec, then pushed further — the auto-programming header makes flashing effortless compared to stock boards.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">Auto-programming</span><span class="tag">USB-UART</span><span class="tag purple">KiCad</span></div>
     </div>
   </div>
 </div>
