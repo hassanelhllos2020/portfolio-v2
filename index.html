@@ -180,6 +180,25 @@
   @keyframes pulse { 0%,100%{box-shadow:0 0 12px rgba(0,229,255,0.6)} 50%{box-shadow:0 0 24px rgba(0,229,255,1)} }
   @keyframes pulseGold { 0%,100%{box-shadow:0 0 10px rgba(255,215,0,0.5)} 50%{box-shadow:0 0 22px rgba(255,215,0,0.9)} }
 
+  /* LIGHTBOX */
+  .detail-photo-slot img,.popup-photo-slot img,.popup-media img { cursor:zoom-in; }
+  .lightbox { position:fixed; inset:0; z-index:500; background:rgba(5,7,12,0.88); backdrop-filter:blur(10px); opacity:0; visibility:hidden; transition:opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .lightbox.active { opacity:1; visibility:visible; transition:opacity 0.3s ease; }
+  .lb-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:grab; touch-action:none; }
+  .lb-stage.grabbing { cursor:grabbing; }
+  .lb-frame { position:relative; display:flex; align-items:center; justify-content:center; max-width:92vw; max-height:92vh; }
+  .lb-frame.enter { animation:lbIn 0.35s ease; }
+  @keyframes lbIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+  .lb-img { display:block; max-width:92vw; max-height:92vh; object-fit:contain; user-select:none; -webkit-user-drag:none; background:var(--surface); border:1px solid rgba(0,229,255,0.12); box-shadow:0 20px 60px rgba(0,0,0,0.6); transition:opacity 0.2s ease; }
+  .lb-img.switching { opacity:0; }
+  .lb-btn { position:fixed; z-index:502; width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:rgba(10,13,18,0.7); border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:1.3rem; line-height:1; cursor:pointer; transition:border-color 0.2s,color 0.2s,background 0.2s; backdrop-filter:blur(4px); }
+  .lb-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .lb-close { top:1.2rem; right:1.2rem; }
+  .lb-nav { top:50%; transform:translateY(-50%); }
+  .lb-prev { left:1rem; }
+  .lb-next { right:1rem; }
+  .lb-counter { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); z-index:501; font-family:var(--mono); font-size:0.7rem; letter-spacing:2px; color:var(--muted); background:rgba(10,13,18,0.7); border:1px solid var(--border); padding:0.45rem 1.1rem; white-space:nowrap; }
+
   @media(max-width:700px) {
     nav { padding:1rem; }
     .nav-links { gap:1rem; }
@@ -380,7 +399,7 @@
     <div class="project-card" onclick="openProject('plc')">
       <div class="project-media">
         <!-- 📸 <img src="plc.jpg" alt="PLC Project"> -->
-<img src="images/19-PLC.PNG" alt="PLC Project">
+<img src="images/19-PLC.jpg" alt="PLC Project">
       </div>
       <div class="project-body">
         <div class="ongoing-badge"><span class="ongoing-dot"></span>ONGOING — R&amp;D</div>
@@ -693,7 +712,7 @@
     <button class="popup-close" onclick="closeProject('plc')">✕</button>
     <div class="popup-media">
       <!-- 📸 <img src="plc-main.jpg"> OR <video controls><source src="plc.mp4"></video> OR <iframe src="https://www.youtube.com/embed/ID" frameborder="0" allowfullscreen></iframe> -->
-<img src="images/19-PLC.PNG" alt="PLC Project">
+<img src="images/19-PLC.jpg" alt="PLC Project">
     </div>
     <div class="popup-body">
       <div class="ongoing-badge" style="margin-bottom:0.8rem"><span class="ongoing-dot"></span>ONGOING — R&amp;D PHASE</div>
@@ -711,11 +730,14 @@
       <div class="photos-label-sm">MORE PHOTOS</div>
       <div class="popup-photos">
         <!-- 📸 <img src="plc-pcb.jpg"> -->
+<div class="popup-photo-slot"><img src="images/35-PLC.jpg" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/36-PLC.jpg" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/37-PLC.jpg" alt="PCB"></div>
+
 <div class="popup-photo-slot"><img src="images/20-PLC.PNG" alt="PCB"></div>
-<div class="popup-photo-slot"><img src="images/21-PLC.PNG" alt="PCB"></div>
 <div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
 <iframe 
-  src="https://www.youtube.com/embed/5_l7fvHgvWA"
+  src="https://www.youtube.com/embed/n8FUGgeDqWc"
   frameborder="0" 
   allowfullscreen
   style="width:100%;height:100%">
@@ -857,6 +879,19 @@
   </div>
 </div>
 
+<!-- ══════════ IMAGE LIGHTBOX ══════════ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-btn lb-nav lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
+  <button class="lb-btn lb-nav lb-next" id="lbNext" aria-label="Next image">›</button>
+  <div class="lb-counter" id="lbCounter">0 / 0</div>
+  <div class="lb-stage" id="lbStage">
+    <div class="lb-frame" id="lbFrame">
+      <img class="lb-img" id="lbImg" alt="">
+    </div>
+  </div>
+</div>
+
 <script>
   // GLOW
   const glow = document.getElementById('glow');
@@ -891,13 +926,196 @@
   }
   function closeOutside(e, id) { if(e.target===e.currentTarget) closeProject(id); }
 
-  // ESC key
+  // ESC + ARROW keys
   document.addEventListener('keydown', e => {
     if(e.key==='Escape'){
+      if(document.getElementById('lightbox').classList.contains('active')){ closeLightbox(); return; }
       document.querySelectorAll('.detail-page.active').forEach(p => closeDetail(p.id.replace('detail-','')));
       document.querySelectorAll('.popup-overlay.active').forEach(p => closeProject(p.id.replace('popup-','')));
+    } else if(document.getElementById('lightbox').classList.contains('active')){
+      if(e.key==='ArrowLeft'){ e.preventDefault(); navLightbox(-1); }
+      else if(e.key==='ArrowRight'){ e.preventDefault(); navLightbox(1); }
     }
   });
+
+  // ═══ IMAGE LIGHTBOX ═══
+  const lightBox = document.getElementById('lightbox');
+  const lbStage = document.getElementById('lbStage');
+  const lbFrame = document.getElementById('lbFrame');
+  const lbImg = document.getElementById('lbImg');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbPrevBtn = document.getElementById('lbPrev');
+  const lbNextBtn = document.getElementById('lbNext');
+  const lbCloseBtn = document.getElementById('lbClose');
+  const LB_MIN = 1, LB_MAX = 12;
+  let lbGallery = [];
+  let lbCur = 0;
+  let lbState = { scale:1, tx:0, ty:0 };
+  let lbSize = { w:600, h:600 };
+  let lbPts = new Map();
+  let lbDrag = null, lbPinch = null, lbMoved = false;
+
+  function lbApply(){
+    lbImg.style.transform = 'translate3d('+lbState.tx.toFixed(2)+'px,'+lbState.ty.toFixed(2)+'px,0) scale('+lbState.scale.toFixed(3)+')';
+  }
+  function lbReset(){ lbState.scale=1; lbState.tx=0; lbState.ty=0; lbApply(); }
+  function lbClamp(){
+    if(lbState.scale<=1){ lbState.tx=0; lbState.ty=0; return; }
+    const mx=(lbSize.w*(lbState.scale-1))/2, my=(lbSize.h*(lbState.scale-1))/2;
+    lbState.tx=Math.max(-mx,Math.min(mx,lbState.tx));
+    lbState.ty=Math.max(-my,Math.min(my,lbState.ty));
+  }
+  function lbZoomAt(cx,cy,k){
+    const s1=Math.min(LB_MAX,Math.max(LB_MIN,lbState.scale*k));
+    const kk=s1/lbState.scale;
+    lbState.tx=cx-(cx-lbState.tx)*kk;
+    lbState.ty=cy-(cy-lbState.ty)*kk;
+    lbState.scale=s1; lbClamp(); lbApply();
+  }
+  function lbMeasure(){
+    const w=lbImg.offsetWidth, h=lbImg.offsetHeight;
+    if(w&&h){ lbSize.w=w; lbSize.h=h; lbClamp(); lbApply(); }
+  }
+  function lbLoad(){
+    const el=lbGallery[lbCur];
+    if(!el) return;
+    lbImg.src=(el.currentSrc||el.src);
+    lbImg.alt=(el.alt||'');
+    lbCounter.textContent=(lbCur+1)+' / '+lbGallery.length;
+    lbCounter.style.display=lbGallery.length>1?'block':'none';
+    lbReset();
+    if(lbImg.complete && lbImg.naturalWidth){ lbImg.classList.remove('switching'); lbMeasure(); }
+  }
+  function openLightbox(imgs,index){
+    if(!imgs||!imgs.length) return;
+    lbGallery=imgs; lbCur=index;
+    lightBox.classList.add('active');
+    lightBox.setAttribute('aria-hidden','false');
+    lbFrame.classList.remove('enter'); void lbFrame.offsetWidth; lbFrame.classList.add('enter');
+    lbImg.classList.remove('switching');
+    lbLoad();
+  }
+  function closeLightbox(){
+    lightBox.classList.remove('active');
+    lightBox.setAttribute('aria-hidden','true');
+    lbGallery=[]; lbCur=0; lbReset();
+    lbPts.clear(); lbDrag=null; lbPinch=null; lbMoved=false;
+  }
+  function navLightbox(dir){
+    if(!lbGallery.length) return;
+    const next=(lbCur+dir+lbGallery.length)%lbGallery.length;
+    if(next===lbCur) return;
+    lbCur=next;
+    lbImg.classList.add('switching');
+    setTimeout(lbLoad, 160);
+  }
+
+  function initLightbox(){
+    const groups=[];
+    document.querySelectorAll('.popup-overlay').forEach(pop=>{
+      const els=[];
+      const m=pop.querySelector('.popup-media img');
+      if(m) els.push(m);
+      pop.querySelectorAll('.popup-photos img').forEach(i=>els.push(i));
+      if(els.length) groups.push(els);
+    });
+    document.querySelectorAll('.detail-photos').forEach(con=>{
+      const els=[...con.querySelectorAll('img')];
+      if(els.length) groups.push(els);
+    });
+    groups.forEach(els=>{
+      els.forEach((el,idx)=>{
+        el.addEventListener('click', e=>{ e.stopPropagation(); openLightbox(els, idx); });
+      });
+    });
+
+    lbCloseBtn.addEventListener('click', e=>{ e.stopPropagation(); closeLightbox(); });
+    lbPrevBtn.addEventListener('click', e=>{ e.stopPropagation(); navLightbox(-1); });
+    lbNextBtn.addEventListener('click', e=>{ e.stopPropagation(); navLightbox(1); });
+
+    lbStage.addEventListener('wheel', e=>{
+      e.preventDefault();
+      const r=lbStage.getBoundingClientRect();
+      const cx=e.clientX-r.left-r.width/2, cy=e.clientY-r.top-r.height/2;
+      lbZoomAt(cx, cy, e.deltaY<0?1.15:1/1.15);
+    }, {passive:false});
+
+    lbStage.addEventListener('dblclick', e=>{
+      e.stopPropagation();
+      if(lbState.scale>1) lbReset();
+      else { const r=lbStage.getBoundingClientRect(); const cx=e.clientX-r.left-r.width/2, cy=e.clientY-r.top-r.height/2; lbZoomAt(cx, cy, 2.5); }
+    });
+
+    lbStage.addEventListener('pointerdown', e=>{
+      e.stopPropagation();
+      lbStage.setPointerCapture(e.pointerId);
+      lbPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      lbMoved=false;
+      if(lbPts.size===1){
+        lbPinch=null;
+        lbDrag={x:e.clientX,y:e.clientY,tx:lbState.tx,ty:lbState.ty};
+      } else if(lbPts.size===2){
+        lbDrag=null;
+        const a=[...lbPts.values()][0], b=[...lbPts.values()][1];
+        lbPinch={ d:Math.hypot(a.x-b.x,a.y-b.y), s:lbState.scale };
+      }
+    });
+
+    lbStage.addEventListener('pointermove', e=>{
+      e.stopPropagation();
+      if(!lbPts.has(e.pointerId)) return;
+      lbPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      const r=lbStage.getBoundingClientRect();
+      if(lbPts.size===2 && lbPinch){
+        lbMoved=true;
+        const a=[...lbPts.values()][0], b=[...lbPts.values()][1];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        const fx=(a.x+b.x)/2-r.left-r.width/2;
+        const fy=(a.y+b.y)/2-r.top-r.height/2;
+        const s1=Math.min(LB_MAX,Math.max(LB_MIN,lbPinch.s*(d/lbPinch.d)));
+        const kk=s1/lbState.scale;
+        lbState.tx=fx-(fx-lbState.tx)*kk;
+        lbState.ty=fy-(fy-lbState.ty)*kk;
+        lbState.scale=s1; lbClamp(); lbApply();
+      } else if(lbPts.size===1 && lbDrag){
+        const dx=e.clientX-lbDrag.x, dy=e.clientY-lbDrag.y;
+        if(Math.abs(dx)>3||Math.abs(dy)>3) lbMoved=true;
+        if(lbState.scale>1){
+          lbState.tx=lbDrag.tx+dx; lbState.ty=lbDrag.ty+dy;
+          lbClamp(); lbApply();
+        }
+      }
+    });
+
+    lbStage.addEventListener('pointerup', e=>{
+      e.stopPropagation();
+      lbPts.delete(e.pointerId);
+      if(lbPts.size===1){
+        const a=[...lbPts.values()][0];
+        lbDrag={x:a.x,y:a.y,tx:lbState.tx,ty:lbState.ty};
+      } else if(lbPts.size===0){
+        if(lbDrag && lbState.scale<=1){
+          const dx=e.clientX-lbDrag.x;
+          if(Math.abs(dx)>60) navLightbox(dx<0?1:-1);
+        }
+        lbDrag=null; lbPinch=null;
+      }
+    });
+
+    lbStage.addEventListener('pointercancel', e=>{
+      lbPts.delete(e.pointerId);
+      if(lbPts.size===0){ lbDrag=null; lbPinch=null; }
+    });
+
+    lbStage.addEventListener('click', e=>{
+      if(e.target!==lbStage) return;
+      if(lbMoved){ lbMoved=false; return; }
+      closeLightbox();
+    });
+
+    lbImg.addEventListener('load', ()=>{ lbImg.classList.remove('switching'); lbMeasure(); });
+  }
+  initLightbox();
 </script>
 </body>
 </html>
