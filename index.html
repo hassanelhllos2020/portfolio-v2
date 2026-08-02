@@ -1215,11 +1215,11 @@
       const els=[];
       const m=pop.querySelector('.popup-media img');
       if(m) els.push(m);
-      pop.querySelectorAll('.popup-photos img').forEach(i=>els.push(i));
+      pop.querySelectorAll('.popup-photos img').forEach(i=>{ if(!i.closest('.video-thumb')) els.push(i); });
       if(els.length) groups.push(els);
     });
     document.querySelectorAll('.detail-photos').forEach(con=>{
-      const els=[...con.querySelectorAll('img')];
+      const els=[...con.querySelectorAll('img')].filter(i=>!i.closest('.video-thumb'));
       if(els.length) groups.push(els);
     });
     groups.forEach(els=>{
