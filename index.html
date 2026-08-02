@@ -197,7 +197,21 @@
   .lb-nav { top:50%; transform:translateY(-50%); }
   .lb-prev { left:1rem; }
   .lb-next { right:1rem; }
-  .lb-counter { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); z-index:501; font-family:var(--mono); font-size:0.7rem; letter-spacing:2px; color:var(--muted); background:rgba(10,13,18,0.7); border:1px solid var(--border); padding:0.45rem 1.1rem; white-space:nowrap; }
+  .lb-counter { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); z-index:151; font-family:var(--mono); font-size:0.7rem; letter-spacing:2px; color:var(--muted); background:rgba(10,13,18,0.7); border:1px solid var(--border); padding:0.45rem 1.1rem; white-space:nowrap; }
+
+  /* VIDEO PLAYER */
+  .video-thumb { position:relative; width:100%; height:100%; aspect-ratio:16/9; cursor:pointer; overflow:hidden; background:var(--surface); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); }
+  .video-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.35s ease, opacity 0.2s ease; }
+  .video-thumb:hover img { transform:scale(1.05); opacity:0.85; }
+  .video-play { position:absolute; width:56px; height:56px; border-radius:50%; background:rgba(10,13,18,0.72); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; transition:transform 0.2s ease, background 0.2s ease; box-shadow:0 0 20px rgba(0,229,255,0.25); }
+  .video-play::after { content:''; margin-left:4px; border-style:solid; border-width:12px 0 12px 21px; border-color:transparent transparent transparent var(--accent); }
+  .video-thumb:hover .video-play { transform:scale(1.12); background:var(--accent); }
+  .video-thumb:hover .video-play::after { border-color:transparent transparent transparent var(--bg); }
+  .video-lightbox { position:fixed; inset:0; z-index:540; background:rgba(5,7,12,0.92); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; visibility:hidden; transition:opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .video-lightbox.active { opacity:1; visibility:visible; transition:opacity 0.3s ease; }
+  .video-stage { width:min(96vw,1280px); aspect-ratio:16/9; background:#000; border:1px solid rgba(0,229,255,0.25); box-shadow:0 25px 80px rgba(0,0,0,0.7); position:relative; }
+  .video-stage iframe { width:100%; height:100%; border:0; display:block; }
+  .video-close { top:1.2rem; right:1.2rem; z-index:60; }
 
   @media(max-width:700px) {
     nav { padding:1rem; }
@@ -587,12 +601,10 @@
       <div class="detail-photo-slot"> <img src="images/2-demo.jpg" alt="PLC Project"></div>
       <div class="detail-photo-slot"> <img src="images/3-Automation-classic.jpeg" alt="PLC Project"></div>
       <div class="detail-photo-slot"> <img src="images/4-Automation-Drive.jpeg" alt="PLC Project"></div>
-<iframe 
-  src="https://www.youtube.com/embed/4iNA4lb06zA"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('4iNA4lb06zA',event)">
+  <img src="https://img.youtube.com/vi/4iNA4lb06zA/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
     </div>
   </div>
 </div>
@@ -679,12 +691,10 @@
     <div class="detail-photos">
       <div class="detail-photo-slot"><img src="images/12-DATA.jpeg" alt="Certificate"></div>
       <div class="detail-photo-slot"><img src="images/13-DATA.jpg" alt="Certificate"></div>
-<iframe 
-  src="https://www.youtube.com/embed/ZUwX4k0PL5U"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('ZUwX4k0PL5U',event)">
+  <img src="https://img.youtube.com/vi/ZUwX4k0PL5U/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
     </div>
   </div>
 </div>
@@ -786,13 +796,11 @@
         <div class="popup-photo-slot"><img src="images/36-PLC.jpg" alt="PCB"></div>
         <div class="popup-photo-slot"><img src="images/37-PLC.jpg" alt="PCB"></div>
         <div class="popup-photo-slot"><img src="images/20-PLC.PNG" alt="PCB"></div>
-        <div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
-        <iframe 
-          src="https://www.youtube.com/embed/n8FUGgeDqWc"
-          frameborder="0" 
-          allowfullscreen
-          style="width:100%;height:100%">
-        </iframe>
+<div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
+        <div class="video-thumb" onclick="openVideo('n8FUGgeDqWc',event)">
+          <img src="https://img.youtube.com/vi/n8FUGgeDqWc/hqdefault.jpg" alt="Play video">
+          <div class="video-play"></div>
+        </div>
       </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Soldering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">ESP32</span><span class="tag orange">3D Design</span><span class="tag orange">Industrial Grade</span></div>
     </div>
@@ -822,13 +830,11 @@
 <div class="popup-photo-slot"><img src="images/23-Smart.jpeg" alt="PCB"></div>
 <div class="popup-photo-slot"><img src="images/24-Smart.PNG" alt="PCB"></div>
 <div class="popup-photo-slot"><img src="images/25-Smart.jpeg" alt="PCB"></div>
-<iframe 
-  src="https://www.youtube.com/embed/7H-34KyS5o8"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
-</div>
+        <div class="video-thumb" onclick="openVideo('7H-34KyS5o8',event)">
+          <img src="https://img.youtube.com/vi/7H-34KyS5o8/hqdefault.jpg" alt="Play video">
+          <div class="video-play"></div>
+        </div>
+      </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">KiCad</span><span class="tag">MQTT</span><span class="tag orange">8-ch Relay</span><span class="tag purple">PCB Design</span><span class="tag orange">Simulation</span><span class="tag orange">Soldering</span></div>
     </div>
   </div>
@@ -855,12 +861,10 @@
       </div>
       <div class="photos-label-sm">MORE PHOTOS</div>
       <div class="popup-photos">
-<iframe 
-  src="https://www.youtube.com/embed/L40XVOAmbuM"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('L40XVOAmbuM',event)">
+  <img src="https://img.youtube.com/vi/L40XVOAmbuM/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
       </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">I2C/SPI</span><span class="tag orange">SquareLine</span><span class="tag">C++</span></div>
     </div>
@@ -918,13 +922,11 @@
       <div class="popup-photos">
 <div class="popup-photo-slot"><img src="images/30-ROV.jpg" alt="PCB"></div>
 <div class="popup-photo-slot"><img src="images/31-ROV.jpeg" alt="PCB"></div>
-<iframe 
-  src="https://www.youtube.com/embed/6IhQnSXap0w"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('6IhQnSXap0w',event)">
+  <img src="https://img.youtube.com/vi/6IhQnSXap0w/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
 </div>
+      </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Python</span><span class="tag orange">Raspberry Pi</span><span class="tag">OpenCV</span></div>
     </div>
   </div>
@@ -950,12 +952,10 @@
       </div>
       <div class="photos-label-sm">MORE PHOTOS</div>
       <div class="popup-photos">
-<iframe 
-  src="https://www.youtube.com/embed/5_l7fvHgvWA"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('5_l7fvHgvWA',event)">
+  <img src="https://img.youtube.com/vi/5_l7fvHgvWA/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
       </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Relay Module</span><span class="tag">Mobile Control</span><span class="tag purple">Classic Control</span></div>
     </div>
@@ -1011,12 +1011,10 @@
       </div>
       <div class="photos-label-sm">MORE PHOTOS</div>
       <div class="popup-photos">
-<iframe 
-  src="https://www.youtube.com/embed/ICle2c08i5g"
-  frameborder="0" 
-  allowfullscreen
-  style="width:100%;height:100%">
-</iframe>
+<div class="video-thumb" onclick="openVideo('ICle2c08i5g',event)">
+  <img src="https://img.youtube.com/vi/ICle2c08i5g/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
       </div>
       <div class="skill-tags" style="margin-top:1rem"><span class="tag orange">Contactors</span><span class="tag purple">Timer</span><span class="tag">Motor Starter</span><span class="tag orange">Wiring</span></div>
     </div>
@@ -1065,6 +1063,12 @@
   </div>
 </div>
 
+<!-- ══════════ VIDEO PLAYER ══════════ -->
+<div class="video-lightbox" id="videoBox" aria-hidden="true">
+  <button class="lb-btn lb-close video-close" id="videoClose" aria-label="Close video">✕</button>
+  <div class="video-stage" id="videoStage"></div>
+</div>
+
 <script>
   // GLOW
   const glow = document.getElementById('glow');
@@ -1102,14 +1106,36 @@
   // ESC + ARROW keys
   document.addEventListener('keydown', e => {
     if(e.key==='Escape'){
+      if(document.getElementById('videoBox').classList.contains('active')){ closeVideo(); return; }
       if(document.getElementById('lightbox').classList.contains('active')){ closeLightbox(); return; }
       document.querySelectorAll('.detail-page.active').forEach(p => closeDetail(p.id.replace('detail-','')));
       document.querySelectorAll('.popup-overlay.active').forEach(p => closeProject(p.id.replace('popup-','')));
+    } else if(document.getElementById('videoBox').classList.contains('active')){
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); }
     } else if(document.getElementById('lightbox').classList.contains('active')){
       if(e.key==='ArrowLeft'){ e.preventDefault(); navLightbox(-1); }
       else if(e.key==='ArrowRight'){ e.preventDefault(); navLightbox(1); }
     }
   });
+
+  // ═══ VIDEO PLAYER ═══
+  const videoBox = document.getElementById('videoBox');
+  const videoStage = document.getElementById('videoStage');
+  function openVideo(src, ev){
+    if(ev) ev.stopPropagation();
+    videoStage.innerHTML = '<iframe src="https://www.youtube.com/embed/'+src+'?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:100%"></iframe>';
+    videoBox.classList.add('active');
+    videoBox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeVideo(){
+    videoBox.classList.remove('active');
+    videoBox.setAttribute('aria-hidden','true');
+    videoStage.innerHTML='';
+    document.body.style.overflow='';
+  }
+  document.getElementById('videoClose').addEventListener('click', e=>{ e.stopPropagation(); closeVideo(); });
+  videoBox.addEventListener('click', e=>{ if(e.target===videoBox) closeVideo(); });
 
   // ═══ IMAGE LIGHTBOX ═══
   const lightBox = document.getElementById('lightbox');
