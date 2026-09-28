@@ -1,0 +1,115 @@
+% ======================================================================
+% Hassan Elhllos - Embedded Systems & PCB Design Engineer - Resume
+% Compile with pdflatex (or Tectonic). Single A4 page, ATS-friendly.
+% ======================================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[a4paper,left=1.05cm,right=1.05cm,top=0.55cm,bottom=0.55cm]{geometry}
+\usepackage{enumitem}
+\usepackage[compact]{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Colors ----------
+\definecolor{ink}{HTML}{141720}
+\definecolor{muted}{HTML}{3F4654}
+\definecolor{accent}{HTML}{0E7C86}
+\definecolor{divider}{HTML}{C9CFD9}
+\pagecolor{white}
+\color{ink}
+
+% ---------- Spacing ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\renewcommand{\baselinestretch}{0.94}
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {}
+  {0pt}
+  {}
+  [\vspace{-5pt}{\color{divider}{\rule{\linewidth}{0.8pt}}\vspace{3pt}}]
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+
+% ---------- Custom helpers ----------
+\newenvironment{chitems}
+  {\begin{itemize}[leftmargin=0.9em,itemsep=0pt,topsep=0.4pt,partopsep=0pt,parsep=0pt,labelsep=0.35em]}
+  {\end{itemize}}
+
+\newcommand{\pos}[3]{\textbf{#1}\hfill{\bfseries\color{accent}#2}\par\vspace{-2pt}{\color{muted}\textbf{#3}}\par\nobreak\vspace{1pt}}
+
+\AtBeginDocument{\small}
+
+% ---------- Document ----------
+\begin{document}
+\begin{center}
+  {\fontsize{22}{26}\selectfont\bfseries Hassan Elhllos}\\[2pt]
+  {\fontsize{11.5}{14}\selectfont\bfseries\color{accent}Embedded Systems \& PCB Design Engineer}\\[2pt]
+  {\color{muted}\small Ismailia, Egypt \textbar\ \href{mailto:hassanelhllos@gmail.com}{hassanelhllos@gmail.com} \textbar\ +20 120 197 8685 \textbar\ \href{https://www.linkedin.com/in/hassan-elhllos-664188255/}{linkedin.com/in/hassan-elhllos}}
+\end{center}
+\vspace{1pt}
+{\color{divider}{\rule{\linewidth}{1.4pt}}}\vspace{3pt}
+
+\section*{PROFESSIONAL SUMMARY}
+Embedded Systems and PCB Design Engineer with 3+ years of freelance experience building custom IoT hardware end-to-end, from schematic design and PCB layout to firmware development (C/C++) and cloud integration. Proficient with ESP32, STM32, KiCad and Altium Designer, with hands-on industrial automation (Siemens S7-1200, Schneider PLC, VFD, Modbus RS485). Won 1st place at Suez Canal University's startup competition for an industrial PLC product.
+
+\section*{TECHNICAL SKILLS}
+\textbf{Embedded Systems:} ESP32, STM32, ESP12E/F, Arduino, Raspberry Pi, GPIO, Timers, Interrupts\par
+\textbf{PCB and Hardware Design:} KiCad, Altium Designer, Schematic Design, PCB Routing, EMC-hardened layout, Proteus, Soldering (through-hole and SMD)\par
+\textbf{Industrial Automation:} Siemens S7-1200 PLC, Schneider PLC, Ladder Logic, Modbus RTU (RS485), VFD configuration, Classic Control (star-delta, overload protection)\par
+\textbf{Software and Data:} C/C++ firmware, Python, SQL, Git/GitHub, JSON, Ladder Diagram, Dashboard Development\par
+\textbf{Connectivity:} MQTT (HiveMQ), UART, SPI, I2C, RS485, HTTP, ESP RainMaker, Blynk, Wi-Fi, BLE\par
+\textbf{Computer Vision and Lab:} OpenCV, Object Detection, Raspberry Pi, Oscilloscope, Multimeter, EMI troubleshooting
+
+\section*{EXPERIENCE}
+\pos{Independent IoT and Hardware Developer}{2023 -- Present}{Freelance}
+\begin{chitems}
+  \item Design custom IoT prototypes and PCB layouts for academic and client projects, with cloud platforms (ESP RainMaker, Blynk) for remote control and rapid deployment.
+\end{chitems}
+
+\pos{Industrial Automation Trainee}{Sep 2025 -- Nov 2025}{HA Consulting Group}
+\begin{chitems}
+  \item Configured VFDs and designed classic control circuits (star-delta starter, overload protection); programmed Siemens S7-1200 and Schneider PLCs.
+\end{chitems}
+
+\pos{IoT Intern}{May 2025 -- Jun 2025}{Creativa Innovation Hub (ITIDA), Grade: Excellent}
+\begin{chitems}
+  \item Configured ESP32 edge platforms with MQTT (HiveMQ); built cloud dashboards and an end-to-end Smart Agriculture system with edge-to-cloud communication.
+\end{chitems}
+
+\pos{Computer Vision Volunteer}{2024 -- 2025}{SCU Racing Team (ROV), Suez Canal University}
+\begin{chitems}
+  \item Developed underwater object-detection and navigation modules with Python and OpenCV on Raspberry Pi.
+\end{chitems}
+
+\pos{Data Analytics Intern}{Jul 2024 -- Aug 2024}{Information Technology Institute (ITI)}
+\begin{chitems}
+  \item Used SQL and data-cleaning to extract insights, then built dashboards for real-time clarity.
+\end{chitems}
+
+\section*{SELECTED PROJECTS}
+\textbf{Industrial PLC Controller:} custom PCB hardened for EMC, 8 I/O, Modbus to HMI and SCADA, in-house Ladder-programming IDE, 3D-printed enclosure; 1st place at Canal Startup Sprint.\par
+\textbf{Custom Smart Home System:} ESP32 with 8-channel relays on a custom KiCad PCB; remote access, schedules and scene control via Blynk/ESP RainMaker.\par
+\textbf{ESP32 DevKit Board:} KiCad board with auto-programming (one-wire) USB-UART, removing the BOOT button requirement.\par
+\textbf{Star-Delta Starter Control Panel:} contactors, timer and overload relay for safe three-phase induction-motor starting.\par
+\textbf{Cold Storage Monitoring and Control:} dual ESP32 boards read temperature and fault lamps of industrial cold-storage panels with remote alerts.
+
+\section*{EDUCATION}
+\pos{B.Sc. in Electrical Engineering}{2021 -- 2026}{Suez Canal University, Faculty of Engineering}
+\vspace{2pt}
+\pos{Diploma in Information Technology}{2016 -- 2021}{Advanced Technical School - Ismailia, Egypt}
+\vspace{2pt}
+\pos{Advanced Industrial Electronics Diploma}{Ongoing}{Digital Fabrication - High-Speed PCB Design and SMPS}
+
+\section*{HONORS AND CERTIFICATIONS}
+\textbf{1st Place} --- Canal Startup Sprint at Suez Canal University (graduation project: Industrial Controller ESP32 PLC).\par
+\textbf{Certifications:} Industrial Automation (HA Consulting), IoT Internship Excellence and Excellent grade (ITIDA), Data Analysis (ITI).
+
+\section*{LANGUAGES}
+Arabic (Native) and English (Professional)
+
+\end{document}
