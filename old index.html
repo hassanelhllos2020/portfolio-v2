@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hassan Elhllos | Embedded Systems & PCB Design Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12; --surface: #111520; --card: #161c2a; --border: #1e2840;
+    --accent: #00e5ff; --accent2: #7b5ea7; --accent3: #ff6b35;
+    --text: #e8eaf0; --muted: #6b7590;
+    --mono: 'Space Mono', monospace; --sans: 'Outfit', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
+  .grid-bg { position:fixed; inset:0; background-image:linear-gradient(rgba(0,229,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+  .glow { position:fixed; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(0,229,255,0.04) 0%,transparent 70%); pointer-events:none; z-index:0; transform:translate(-50%,-50%); transition:left 0.15s ease,top 0.15s ease; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1.2rem 2rem; display:flex; justify-content:space-between; align-items:center; background:rgba(10,13,18,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:var(--mono); font-size:1rem; color:var(--accent); letter-spacing:2px; text-decoration:none; }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { font-family:var(--mono); font-size:0.75rem; color:var(--muted); text-decoration:none; letter-spacing:1px; text-transform:uppercase; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--accent); }
+
+  section { position:relative; z-index:1; padding:5rem 2rem; max-width:1100px; margin:0 auto; }
+
+  /* HERO */
+  #hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding-top:8rem; max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+  .hero-inner { display:flex; align-items:center; gap:3rem; flex-wrap:wrap; }
+  .hero-text { flex:1; min-width:280px; }
+  .hero-photo-wrap { flex-shrink:0; opacity:0; animation:fadeUp 0.6s ease 0.3s forwards; }
+  .hero-photo { width:200px; height:200px; border-radius:2px; object-fit:cover; border:2px solid var(--accent); box-shadow:0 0 40px rgba(0,229,255,0.2),0 0 0 6px rgba(0,229,255,0.05); display:block; }
+  .hero-photo-placeholder { width:200px; height:200px; border-radius:2px; border:2px dashed rgba(0,229,255,0.3); background:var(--card); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem; color:var(--muted); font-family:var(--mono); font-size:0.65rem; letter-spacing:1px; text-align:center; padding:1rem; }
+  .hero-tag { font-family:var(--mono); font-size:0.75rem; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:1.2rem; opacity:0; animation:fadeUp 0.6s ease 0.2s forwards; }
+  .hero-name { font-size:clamp(3rem,7vw,5.5rem); font-weight:800; line-height:1; letter-spacing:-2px; margin-bottom:1rem; opacity:0; animation:fadeUp 0.6s ease 0.4s forwards; }
+  .hero-name span { color:transparent; -webkit-text-stroke:1px var(--accent); }
+  .hero-sub { font-size:1.1rem; color:var(--muted); max-width:520px; line-height:1.7; margin-bottom:2.5rem; opacity:0; animation:fadeUp 0.6s ease 0.6s forwards; }
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; opacity:0; animation:fadeUp 0.6s ease 0.8s forwards; }
+  .btn-primary { padding:0.8rem 2rem; background:var(--accent); color:var(--bg); font-family:var(--mono); font-size:0.8rem; font-weight:700; letter-spacing:1px; text-decoration:none; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition:transform 0.2s,box-shadow 0.2s; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(0,229,255,0.4); }
+  .btn-outline { padding:0.8rem 2rem; border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:0.8rem; letter-spacing:1px; text-decoration:none; transition:border-color 0.2s,color 0.2s; }
+  .btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+  .hero-scroll { position:absolute; bottom:3rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; font-family:var(--mono); font-size:0.65rem; color:var(--muted); letter-spacing:2px; animation:floatScroll 2s ease-in-out infinite; }
+  .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom,var(--accent),transparent); }
+
+  /* SECTION HEADER */
+  .section-header { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+  .section-num { font-family:var(--mono); font-size:0.75rem; color:var(--accent); letter-spacing:2px; }
+  .section-title { font-size:2rem; font-weight:800; letter-spacing:-1px; }
+  .section-line { flex:1; height:1px; background:var(--border); }
+
+  /* ABOUT */
+  .about-grid { display:grid; grid-template-columns:2fr 1fr; gap:3rem; align-items:center; }
+  .about-text p { color:var(--muted); line-height:1.8; margin-bottom:1rem; font-size:0.95rem; }
+  .about-stats { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .stat-box { background:var(--card); border:1px solid var(--border); padding:1.2rem; text-align:center; }
+  .stat-num { font-size:2rem; font-weight:800; color:var(--accent); font-family:var(--mono); }
+  .stat-label { font-size:0.75rem; color:var(--muted); margin-top:0.3rem; }
+
+  /* SKILLS */
+  .skills-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; }
+  .skill-card { background:var(--card); border:1px solid var(--border); padding:1.5rem; position:relative; overflow:hidden; transition:border-color 0.3s,transform 0.3s; }
+  .skill-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,229,255,0.05),transparent); opacity:0; transition:opacity 0.3s; }
+  .skill-card:hover { border-color:var(--accent); transform:translateY(-4px); }
+  .skill-card:hover::before { opacity:1; }
+  .skill-icon { font-size:1.8rem; margin-bottom:0.8rem; }
+  .skill-name { font-weight:600; font-size:0.95rem; margin-bottom:0.5rem; }
+  .skill-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.8rem; }
+  .tag { font-family:var(--mono); font-size:0.65rem; padding:0.2rem 0.6rem; background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.2); color:var(--accent); letter-spacing:0.5px; }
+  .tag.purple { background:rgba(123,94,167,0.1); border-color:rgba(123,94,167,0.3); color:#a480d4; }
+  .tag.orange { background:rgba(255,107,53,0.1); border-color:rgba(255,107,53,0.3); color:var(--accent3); }
+
+  /* TIMELINE */
+  .timeline { position:relative; padding-left:2rem; }
+  .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,var(--accent),var(--border),transparent); }
+  .timeline-item { position:relative; padding-bottom:2.5rem; opacity:0; transform:translateX(-20px); transition:opacity 0.5s,transform 0.5s; }
+  .timeline-item.visible { opacity:1; transform:translateX(0); }
+  .timeline-dot { position:absolute; left:-2.4rem; top:0.3rem; width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 12px rgba(0,229,255,0.6); animation:pulse 2s ease-in-out infinite; }
+  .timeline-date { font-family:var(--mono); font-size:0.7rem; color:var(--accent); letter-spacing:1px; margin-bottom:0.4rem; }
+  .timeline-title { font-size:1.1rem; font-weight:600; margin-bottom:0.2rem; }
+  .timeline-org { font-size:0.85rem; color:var(--muted); margin-bottom:0.8rem; }
+  .timeline-desc { font-size:0.9rem; color:var(--muted); line-height:1.7; }
+  .timeline-desc li { margin-left:1rem; margin-bottom:0.3rem; }
+
+  .timeline-clickable { cursor:pointer; padding:1.2rem 1.4rem; background:var(--card); border:1px solid var(--border); margin-top:0.5rem; transition:border-color 0.25s,transform 0.25s; position:relative; }
+  .timeline-clickable:hover { border-color:var(--accent); transform:translateX(4px); }
+  .timeline-clickable .hint { font-family:var(--mono); font-size:0.6rem; color:var(--accent); letter-spacing:2px; display:block; margin-top:0.8rem; opacity:0; transition:opacity 0.2s; }
+  .timeline-clickable:hover .hint { opacity:1; }
+
+  /* AWARD */
+  .timeline-item.award .timeline-dot { background:gold; box-shadow:0 0 14px rgba(255,215,0,0.7); animation:pulseGold 2s ease-in-out infinite; }
+  .award-badge { display:inline-flex; align-items:center; gap:0.5rem; background:linear-gradient(135deg,rgba(255,215,0,0.12),rgba(255,165,0,0.06)); border:1px solid rgba(255,215,0,0.3); padding:0.5rem 1rem; margin-top:0.6rem; font-family:var(--mono); font-size:0.7rem; color:gold; letter-spacing:1px; }
+  .award-card { cursor:pointer; padding:1.2rem 1.4rem; background:linear-gradient(135deg,rgba(255,215,0,0.05),rgba(255,165,0,0.02)); border:1px solid rgba(255,215,0,0.2); margin-top:0.5rem; transition:border-color 0.25s,transform 0.25s; }
+  .award-card:hover { border-color:gold; transform:translateX(4px); }
+  .award-card .hint { font-family:var(--mono); font-size:0.6rem; color:gold; letter-spacing:2px; display:block; margin-top:0.8rem; opacity:0; transition:opacity 0.2s; }
+  .award-card:hover .hint { opacity:1; }
+
+  /* PROJECTS */
+  .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; }
+  .project-card { background:var(--card); border:1px solid var(--border); overflow:hidden; cursor:pointer; opacity:0; transform:translateY(20px); transition:opacity 0.5s,transform 0.5s,border-color 0.3s; }
+  .project-card.visible { opacity:1; transform:translateY(0); }
+  .project-card:hover { border-color:var(--accent); transform:translateY(-4px) !important; }
+  .project-media { width:100%; aspect-ratio:16/9; background:var(--surface); border-bottom:1px solid var(--border); position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .project-media img,.project-media video,.project-media iframe { width:100%; height:100%; object-fit:cover; display:block; }
+  .media-placeholder { display:flex; flex-direction:column; align-items:center; gap:0.6rem; color:var(--muted); font-family:var(--mono); font-size:0.7rem; letter-spacing:1px; text-align:center; padding:1rem; }
+  .media-placeholder svg { opacity:0.3; }
+  .project-body { padding:1.5rem; }
+  .project-type { font-family:var(--mono); font-size:0.65rem; color:var(--accent3); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.6rem; }
+  .project-title { font-size:1.1rem; font-weight:700; margin-bottom:0.6rem; letter-spacing:-0.3px; }
+  .project-desc { font-size:0.875rem; color:var(--muted); line-height:1.7; margin-bottom:1rem; }
+  .project-hint { font-family:var(--mono); font-size:0.65rem; color:var(--accent); letter-spacing:1px; opacity:0; transition:opacity 0.2s; margin-top:0.8rem; }
+  .project-card:hover .project-hint { opacity:1; }
+  .ongoing-badge { display:inline-flex; align-items:center; gap:0.4rem; font-family:var(--mono); font-size:0.65rem; color:#ffd700; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.25); padding:0.2rem 0.7rem; margin-bottom:0.6rem; }
+  .ongoing-dot { width:6px; height:6px; background:#ffd700; border-radius:50%; animation:pulseGold 1.5s ease-in-out infinite; }
+
+  /* CONTACT */
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+  .contact-info h3 { font-size:1.5rem; font-weight:800; margin-bottom:1rem; }
+  .contact-info p { color:var(--muted); line-height:1.7; margin-bottom:2rem; }
+  .contact-links { display:flex; flex-direction:column; gap:0.8rem; }
+  .contact-link { display:flex; align-items:center; gap:0.8rem; color:var(--text); text-decoration:none; font-size:0.9rem; padding:0.8rem 1rem; border:1px solid var(--border); background:var(--card); transition:border-color 0.2s,color 0.2s; }
+  .contact-link:hover { border-color:var(--accent); color:var(--accent); }
+  .contact-link .icon { font-size:1.1rem; width:20px; text-align:center; }
+
+  footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:2rem; text-align:center; font-family:var(--mono); font-size:0.7rem; color:var(--muted); letter-spacing:1px; }
+
+  /* DETAIL PAGES */
+  .detail-page { display:none; position:fixed; inset:0; z-index:200; background:var(--bg); overflow-y:auto; }
+  .detail-page.active { display:block; animation:pageIn 0.3s ease; }
+  @keyframes pageIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .detail-nav { position:sticky; top:0; z-index:10; padding:1rem 2rem; display:flex; align-items:center; gap:1rem; background:rgba(10,13,18,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+  .back-btn { font-family:var(--mono); font-size:0.75rem; color:var(--accent); letter-spacing:1px; background:none; border:1px solid rgba(0,229,255,0.3); padding:0.4rem 1rem; cursor:pointer; transition:background 0.2s; }
+  .back-btn:hover { background:rgba(0,229,255,0.08); }
+  .detail-nav-title { font-family:var(--mono); font-size:0.75rem; color:var(--muted); letter-spacing:1px; }
+  .detail-content { max-width:860px; margin:0 auto; padding:3rem 2rem 5rem; }
+  .cert-area { width:100%; min-height:220px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:2.5rem; overflow:hidden; }
+  .cert-area img { width:100%; height:auto; display:block; }
+  .cert-placeholder { display:flex; flex-direction:column; align-items:center; gap:0.8rem; color:var(--muted); font-family:var(--mono); font-size:0.7rem; letter-spacing:1px; text-align:center; }
+  .detail-title { font-size:2rem; font-weight:800; letter-spacing:-1px; margin-bottom:0.4rem; }
+  .detail-org { font-size:1rem; color:var(--accent); font-family:var(--mono); letter-spacing:1px; margin-bottom:2rem; }
+  .detail-body { color:var(--muted); line-height:1.8; font-size:0.95rem; margin-bottom:2rem; }
+  .detail-body p { margin-bottom:1rem; }
+  .detail-body ul { margin-left:1.5rem; margin-bottom:1rem; }
+  .detail-body li { margin-bottom:0.4rem; }
+  .photos-label { font-family:var(--mono); font-size:0.7rem; color:var(--accent); letter-spacing:2px; margin-bottom:1rem; }
+  .detail-photos { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-top:0; }
+  .detail-photo-slot { aspect-ratio:4/3; background:var(--surface); border:1px dashed var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--muted); font-family:var(--mono); font-size:0.65rem; letter-spacing:1px; text-align:center; overflow:hidden; }
+  .detail-photo-slot img { width:100%; height:100%; object-fit:cover; }
+
+  /* POPUP */
+  .popup-overlay { display:none; position:fixed; inset:0; z-index:300; background:rgba(5,7,12,0.85); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:1.5rem; }
+  .popup-overlay.active { display:flex; animation:fadeIn 0.2s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .popup-box { background:var(--card); border:1px solid var(--border); max-width:700px; width:100%; max-height:90vh; overflow-y:auto; animation:popIn 0.25s ease; position:relative; }
+  @keyframes popIn { from{opacity:0;transform:scale(0.96) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+  .popup-close { position:absolute; top:1rem; right:1rem; z-index:10; background:var(--surface); border:1px solid var(--border); color:var(--text); width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; transition:border-color 0.2s; }
+  .popup-close:hover { border-color:var(--accent3); color:var(--accent3); }
+  .popup-media { width:100%; aspect-ratio:16/9; background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .popup-media img,.popup-media video,.popup-media iframe { width:100%; height:100%; object-fit:cover; }
+  .popup-photos { display:grid; grid-template-columns:repeat(3,1fr); gap:0.6rem; margin-top:1rem; }
+  .popup-photo-slot { aspect-ratio:4/3; background:var(--surface); border:1px dashed var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); font-family:var(--mono); font-size:0.6rem; text-align:center; overflow:hidden; }
+  .popup-photo-slot img { width:100%; height:100%; object-fit:cover; }
+  .popup-body { padding:1.5rem; }
+  .popup-type { font-family:var(--mono); font-size:0.65rem; color:var(--accent3); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.6rem; }
+  .popup-title { font-size:1.3rem; font-weight:800; margin-bottom:1rem; letter-spacing:-0.5px; }
+  .popup-desc { color:var(--muted); line-height:1.8; font-size:0.9rem; margin-bottom:1.2rem; }
+  .popup-desc p { margin-bottom:0.8rem; }
+  .popup-desc ul { margin-left:1.5rem; margin-bottom:0.8rem; }
+  .popup-desc li { margin-bottom:0.3rem; }
+  .photos-label-sm { font-family:var(--mono); font-size:0.65rem; color:var(--accent); letter-spacing:2px; margin-bottom:0.6rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes floatScroll { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 12px rgba(0,229,255,0.6)} 50%{box-shadow:0 0 24px rgba(0,229,255,1)} }
+  @keyframes pulseGold { 0%,100%{box-shadow:0 0 10px rgba(255,215,0,0.5)} 50%{box-shadow:0 0 22px rgba(255,215,0,0.9)} }
+
+  /* LIGHTBOX */
+  .detail-photo-slot img,.popup-photo-slot img,.popup-media img { cursor:zoom-in; }
+  .lightbox { position:fixed; inset:0; z-index:500; background:rgba(5,7,12,0.88); backdrop-filter:blur(10px); opacity:0; visibility:hidden; transition:opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .lightbox.active { opacity:1; visibility:visible; transition:opacity 0.3s ease; }
+  .lb-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:grab; touch-action:none; }
+  .lb-stage.grabbing { cursor:grabbing; }
+  .lb-frame { position:relative; display:flex; align-items:center; justify-content:center; max-width:92vw; max-height:92vh; }
+  .lb-frame.enter { animation:lbIn 0.35s ease; }
+  @keyframes lbIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+  .lb-img { display:block; max-width:92vw; max-height:92vh; object-fit:contain; user-select:none; -webkit-user-drag:none; background:var(--surface); border:1px solid rgba(0,229,255,0.12); box-shadow:0 20px 60px rgba(0,0,0,0.6); transition:opacity 0.2s ease; }
+  .lb-img.switching { opacity:0; }
+  .lb-btn { position:fixed; z-index:502; width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:rgba(10,13,18,0.7); border:1px solid var(--border); color:var(--text); font-family:var(--mono); font-size:1.3rem; line-height:1; cursor:pointer; transition:border-color 0.2s,color 0.2s,background 0.2s; backdrop-filter:blur(4px); }
+  .lb-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .lb-close { top:1.2rem; right:1.2rem; }
+  .lb-nav { top:50%; transform:translateY(-50%); }
+  .lb-prev { left:1rem; }
+  .lb-next { right:1rem; }
+  .lb-counter { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); z-index:151; font-family:var(--mono); font-size:0.7rem; letter-spacing:2px; color:var(--muted); background:rgba(10,13,18,0.7); border:1px solid var(--border); padding:0.45rem 1.1rem; white-space:nowrap; }
+
+  /* VIDEO PLAYER */
+  .video-thumb { position:relative; width:100%; height:100%; aspect-ratio:16/9; cursor:pointer; overflow:hidden; background:var(--surface); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); }
+  .video-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.35s ease, opacity 0.2s ease; }
+  .video-thumb:hover img { transform:scale(1.05); opacity:0.85; }
+  .video-play { position:absolute; width:56px; height:56px; border-radius:50%; background:rgba(10,13,18,0.72); border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; transition:transform 0.2s ease, background 0.2s ease; box-shadow:0 0 20px rgba(0,229,255,0.25); }
+  .video-play::after { content:''; margin-left:4px; border-style:solid; border-width:12px 0 12px 21px; border-color:transparent transparent transparent var(--accent); }
+  .video-thumb:hover .video-play { transform:scale(1.12); background:var(--accent); }
+  .video-thumb:hover .video-play::after { border-color:transparent transparent transparent var(--bg); }
+  .video-lightbox { position:fixed; inset:0; z-index:540; background:rgba(5,7,12,0.92); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; visibility:hidden; transition:opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .video-lightbox.active { opacity:1; visibility:visible; transition:opacity 0.3s ease; }
+  .video-stage { width:min(96vw,1280px); aspect-ratio:16/9; background:#000; border:1px solid rgba(0,229,255,0.25); box-shadow:0 25px 80px rgba(0,0,0,0.7); position:relative; }
+  .video-stage iframe { width:100%; height:100%; border:0; display:block; }
+  .video-close { top:1.2rem; right:1.2rem; z-index:60; }
+
+  @media(max-width:700px) {
+    nav { padding:1rem; }
+    .nav-links { gap:1rem; }
+    .nav-links a { font-size:0.6rem; }
+    .about-grid,.contact-grid { grid-template-columns:1fr; }
+    .hero-inner { flex-direction:column-reverse; align-items:flex-start; }
+    .hero-photo,.hero-photo-placeholder { width:140px; height:140px; }
+    .popup-photos { grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="glow" id="glow"></div>
+
+<!-- ══════════ MAIN PAGE ══════════ -->
+<div id="mainPage">
+<nav>
+  <a href="#hero" class="nav-logo">HE_</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-tag">// Embedded Systems & PCB Design Engineer</p>
+      <h1 class="hero-name">Hassan<br><span>Elhllos</span></h1>
+      <p class="hero-sub">Embedded Systems & PCB Design Engineer passionate about designing custom hardware, developing firmware, and building end-to-end smart devices—from PCB design to IoT connectivity and cloud integration.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <!--
+      ════════════════════════════════════════════
+      📸 إزاي تضيف صورتك:
+         1. احذف الـ div.hero-photo-placeholder كله
+         2. ضيف السطر ده بدله:
+            <img class="hero-photo" src="hassan.png" alt="Hassan">
+         3. حط صورتك في نفس الـ folder مع index.html
+            (PNG أو JPG - أي حجم، هتتقص تلقائياً)
+      ════════════════════════════════════════════
+      -->
+<img class="hero-photo" src="images/0-me.png" alt="Hassan">
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header"><span class="section-num">01.</span><h2 class="section-title">About</h2><div class="section-line"></div></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm an Electrical Engineering graduate from Suez Canal University specializing in Embedded Systems, IoT, and Automation. I build complete smart systems from scratch—designing custom PCBs, developing firmware in C++, and connecting devices to the cloud.</p>
+      <p>From smart home controllers to industrial PLCs, I enjoy bridging the physical and digital worlds by turning ideas into reliable embedded products.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box"><div class="stat-num">3+</div><div class="stat-label">Years Freelancing</div></div>
+      <div class="stat-box" style="background:linear-gradient(135deg,rgba(255,215,0,0.07),rgba(255,165,0,0.03));border-color:rgba(255,215,0,0.25)"><div class="stat-num" style="font-size:1.4rem">🏆</div><div class="stat-label" style="color:gold">1st Place — Startup</div></div>
+      <div class="stat-box"><div class="stat-num" style="font-size:1rem;line-height:1.4;padding-top:0.4rem">SCU</div><div class="stat-label">Suez Canal Univ.</div></div>
+      <div class="stat-box"><div class="stat-num">2026</div><div class="stat-label">Graduation</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header"><span class="section-num">02.</span><h2 class="section-title">Skills</h2><div class="section-line"></div></div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-icon">🔌</div><div class="skill-name">Embedded Systems</div><div class="skill-tags"><span class="tag">ESP32</span><span class="tag">ESP12E/F</span><span class="tag">STM32</span><span class="tag">Arduino</span><span class="tag">C/C++</span><span class="tag">HiveMQ</span></div></div>
+    <div class="skill-card"><div class="skill-icon">🖥️</div><div class="skill-name">Hardware & PCB Design</div><div class="skill-tags"><span class="tag purple">KiCad</span><span class="tag purple">Altium Designer</span><span class="tag purple">PCB Design</span><span class="tag purple">Schematic Design</span><span class="tag purple">PCB Routing</span><span class="tag purple">Proteus</span><span class="tag purple">Electronics</span><span class="tag purple">Digital Fabrication</span><span class="tag purple">Reverse Engineering</span></div></div>
+    <div class="skill-card"><div class="skill-icon">⚙️</div><div class="skill-name">Industrial Automation</div><div class="skill-tags"><span class="tag orange">Siemens S7-1200</span><span class="tag orange">Schneider PLC</span><span class="tag orange">Modbus RTU (RS485)</span><span class="tag orange">VFD</span><span class="tag orange">Classic Control</span></div></div>
+    <div class="skill-card"><div class="skill-icon">📡</div><div class="skill-name">Protocols</div><div class="skill-tags"><span class="tag">UART</span><span class="tag">SPI</span><span class="tag">I2C</span><span class="tag">RS485</span><span class="tag">MQTT</span><span class="tag">HTTP</span></div></div>
+    <div class="skill-card"><div class="skill-icon">💻</div><div class="skill-name">Software & Data</div><div class="skill-tags"><span class="tag purple">C/C++</span><span class="tag purple">Python</span><span class="tag purple">Git & GitHub</span><span class="tag purple">SQL</span><span class="tag purple">Ladder Diagram</span></div></div>
+    <div class="skill-card"><div class="skill-icon">👁️</div><div class="skill-name">Computer Vision</div><div class="skill-tags"><span class="tag orange">Raspberry Pi</span><span class="tag orange">OpenCV</span><span class="tag orange">Object Detection</span></div></div>
+    <div class="skill-card"><div class="skill-icon">🔬</div><div class="skill-name">Hardware Lab</div><div class="skill-tags"><span class="tag">Oscilloscope</span><span class="tag">Multimeter</span><span class="tag">Soldering (through hole - SMD)</span><span class="tag">USB to UART</span><span class="tag">Troubleshooting</span></div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header"><span class="section-num">03.</span><h2 class="section-title">Experience</h2><div class="section-line"></div></div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2023 — PRESENT</div>
+      <div class="timeline-title">Independent IoT & Hardware Developer</div>
+      <div class="timeline-org">Freelance</div>
+      <ul class="timeline-desc">
+        <li>Designed custom IoT prototypes and complex PCB layouts for academic and client projects</li>
+        <li>Integrated cloud platforms (ESP RainMaker, Blynk) for rapid deployment and remote control</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">SEP 2025 — NOV 2025</div>
+      <div class="timeline-clickable" onclick="openDetail('ha')">
+        <div class="timeline-title">Industrial Automation Trainee</div>
+        <div class="timeline-org">HA Consulting Group</div>
+        <ul class="timeline-desc">
+          <li>Configured VFDs and designed classic control circuits</li>
+          <li>Programmed PLC logic — Siemens S7-1200 and Schneider platforms</li>
+        </ul>
+        <span class="hint">→ VIEW DETAILS & CERTIFICATE</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">MAY 2025 — JUN 2025</div>
+      <div class="timeline-clickable" onclick="openDetail('creativa')">
+        <div class="timeline-title">IoT Intern</div>
+        <div class="timeline-org">Creativa Innovation Hub (ITIDA) — Grade: Excellent</div>
+        <ul class="timeline-desc">
+          <li>Configured ESP32 edge platforms with reliable MQTT connectivity</li>
+          <li>Built cloud dashboards for real-time IoT monitoring</li>
+          <li>Architected Smart Agriculture system with edge-to-cloud MQTT communication</li>
+        </ul>
+        <span class="hint">→ VIEW DETAILS & CERTIFICATE</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">--</div>
+      <div class="timeline-clickable" onclick="openDetail('fablab')">
+        <div class="timeline-title">Advanced Industrial Electronics Diploma</div>
+        <div class="timeline-org">Digital Fabrication — High-Speed PCB Design & SMPS</div>
+        <ul class="timeline-desc">
+          <li>Advanced PCB design: high-speed signal integrity, impedance control</li>
+          <li>Switched-mode power supply design and analysis</li>
+        </ul>
+        <span class="hint">→ VIEW DETAILS & CERTIFICATE</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">JUL 2024 — AUG 2024</div>
+      <div class="timeline-clickable" onclick="openDetail('iti')">
+        <div class="timeline-title">Data Analysis Intern</div>
+        <div class="timeline-org">Information Technology Institute (ITI)</div>
+        <ul class="timeline-desc">
+          <li>Applied SQL and data cleaning to extract insights from complex datasets</li>
+        </ul>
+        <span class="hint">→ VIEW DETAILS & CERTIFICATE</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2024 — 2025</div>
+      <div class="timeline-clickable" onclick="openDetail('Vision')">
+      <div class="timeline-title">Computer Vision Volunteer</div>
+      <div class="timeline-org">SCU Racing Team (ROV) · Suez Canal University</div>
+      <ul class="timeline-desc">
+        <li>Contributed to underwater object detection and navigation modules</li>
+        <li>Raspberry Pi & Python — volunteer team member</li>
+      </ul>
+      </div>
+    </div>
+
+
+    <div class="timeline-item award">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2024 — 2025</div>
+      <div class="award-badge">🏆 1ST PLACE</div>
+      <div class="award-card" onclick="openDetail('award')">
+        <div class="timeline-title">Canal Startup Sprint — 1st Place</div>
+        <div class="timeline-org">Suez Canal University · Startup Competition</div>
+        <ul class="timeline-desc">
+          <li>Participated with graduation project — Industrial Controller (ESP32 PLC)</li>
+          <li>Secured 1st place among competing teams</li>
+        </ul>
+        <span class="hint">→ VIEW DETAILS & PHOTOS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header"><span class="section-num">04.</span><h2 class="section-title">Projects</h2><div class="section-line"></div></div>
+  <div class="projects-grid">
+
+<div class="project-card" onclick="openProject('plc')">
+      <div class="project-media">
+        <img src="images/19-PLC.jpg" alt="PLC - Industrial Controller">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Industrial Product</div>
+        <div class="project-title">PLC - Industrial Controller</div>
+        <p class="project-desc">A fully locally-manufactured industrial PLC — industrial-grade PCB hardened for EMC, 8 inputs & 8 outputs, and Modbus wiring for HMI / SCADA. Built-in 3D-printed enclosure, its own Ladder-programming IDE and mobile control.</p>
+        <div class="skill-tags"><span class="tag purple">Soldering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">ESP32</span><span class="tag orange">3D Design</span><span class="tag orange">Industrial Grade</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('flomac')">
+      <div class="project-media">
+        <img src="images/Flomac/1.jpg" alt="Flomac Automatic Pump Control Board">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Reverse Engineering & Product Development</div>
+        <div class="project-title">Flomac Automatic Pump Controller</div>
+        <p class="project-desc">Complete reverse engineering of a proprietary automatic pump control board for a freelance client. Delivered a functionally identical replica PCB with validated prototype, now advancing to mass production — Phase 1 targeting 1,000 units, Phase 2 scaling to 20,000 units. Coordinated directly with a Chinese manufacturing partner and component suppliers for BOM sourcing. Collaborated with a mechanical engineer on enclosure design for a production-ready product.</p>
+        <div class="skill-tags"><span class="tag purple">Reverse Engineering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">BOM Management</span><span class="tag orange">Manufacturing</span><span class="tag orange">Mass Production</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('smarthome')">
+      <div class="project-media">
+        <!-- 📸 <img src="smarthome.jpg"> -->
+<img src="images/23-Smart.jpeg" alt="PLC Project">
+      </div>
+      <div class="project-body">
+        <div class="project-type">PCB Design</div>
+        <div class="project-title">Custom Smart Home System</div>
+        <p class="project-desc">ESP32-based controller with 8-channel relay interface on custom PCB. Remote access and full home appliance automation.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">KiCad</span><span class="tag">MQTT</span><span class="tag orange">Relay Control</span><span class="tag purple">PCB Design</span><span class="tag orange">Simulation</span><span class="tag orange">Soldering</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('watch')">
+      <div class="project-media">
+        <!-- 📸 <img src="watch.jpg"> -->
+<img src="images/26-watch.jpg" alt="PLC Project">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Wearable / Embedded</div>
+        <div class="project-title">Smart Health & Activity Watch</div>
+        <p class="project-desc">Wearable with Waveshare Touch LCD, SquareLine GUI, and biometric sensors for heart rate, SpO2, and temperature.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">I2C / SPI</span><span class="tag orange">SquareLine</span><span class="tag">C++</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('agri')">
+      <div class="project-media">
+        <!-- 📸 <img src="agri.jpg"> -->
+<img src="images/27-Agriculture .jpg" alt="PLC Project">
+      </div>
+      <div class="project-body">
+        <div class="project-type">IoT / Agriculture</div>
+        <div class="project-title">Smart Agriculture System</div>
+        <p class="project-desc">End-to-end smart agriculture with MQTT edge-to-cloud communication, remote control logic, and real-time dashboards.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag">MQTT</span><span class="tag orange">Cloud Dashboard</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('rov')">
+      <div class="project-media">
+        <!-- 📸 <img src="rov.jpg"> -->
+<img src="images/29-ROV.jpeg" alt="PLC Project">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Computer Vision / Robotics</div>
+        <div class="project-title">ROV — Underwater Detection </div>
+        <p class="project-desc">CV modules for underwater object detection and navigation. Part of SCU Racing Team ROV that won 1st place.</p>
+        <div class="skill-tags"><span class="tag purple">Python</span><span class="tag orange">Raspberry Pi</span><span class="tag">OpenCV</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('classic')">
+      <div class="project-media">
+<img src="images/38-classic.jpg" alt="Smart Classic Control Panel">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Industrial Automation</div>
+        <div class="project-title">Smart Classic Control Panel</div>
+        <p class="project-desc">ESP32 + relay module that lets you operate a classic control panel from your mobile — remote start/stop and monitoring of a conventional electromechanical circuit.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag orange">Relay Module</span><span class="tag">Mobile Control</span><span class="tag purple">Classic Control</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('ices')">
+      <div class="project-media">
+<img src="images/39- ICES.jpg" alt="Cold Storage Monitoring System">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Industrial IoT</div>
+        <div class="project-title">Cold Storage Monitoring &amp; Control</div>
+        <p class="project-desc">Dual ESP32 boards read industrial temperature sensors and fault-lamp signals from large fruit cold-storage control panels — with remote control and instant fault alerts.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag orange">Industrial Sensors</span><span class="tag">Mobile App</span><span class="tag purple">3D Enclosure</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('stardelta')">
+      <div class="project-media">
+<img src="images/39-star delta.jpg" alt="Star-Delta Starter Control Panel">
+      </div>
+      <div class="project-body">
+        <div class="project-type">Classic Control</div>
+        <div class="project-title">Star-Delta Starter Control Panel</div>
+        <p class="project-desc">A classic motor-control panel for star-delta starting — contactors, timer and overload relay protecting a 3-phase induction motor from high inrush current.</p>
+        <div class="skill-tags"><span class="tag orange">Contactors</span><span class="tag purple">Timer</span><span class="tag">Motor Starter</span><span class="tag orange">Wiring</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+    <div class="project-card" onclick="openProject('devkit')">
+      <div class="project-media">
+<img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit">
+      </div>
+      <div class="project-body">
+        <div class="project-type">PCB Design</div>
+        <div class="project-title">ESP32 DevKit Board</div>
+        <p class="project-desc">A customized ESP32 development board mirroring the original DevKit — with automatic (one-wire) programming that removes the need to hold the BOOT button.</p>
+        <div class="skill-tags"><span class="tag">ESP32</span><span class="tag purple">Auto-programming</span><span class="tag">USB-UART</span><span class="tag purple">KiCad</span></div>
+        <p class="project-hint">→ CLICK FOR PREVIEW</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header"><span class="section-num">05.</span><h2 class="section-title">Contact</h2><div class="section-line"></div></div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Let's build something.</h3>
+      <p>Looking for collaboration on IoT projects, PCB design, or industrial automation. Currently open to freelance work and internship opportunities.</p>
+      <div class="contact-links">
+        <a href="mailto:hassanelhllos@gmail.com" class="contact-link"><span class="icon">✉</span> hassanelhllos@gmail.com</a>
+        <a href="tel:+201201978685" class="contact-link"><span class="icon">📞</span> +20 120 197 8685</a>
+        <a href="https://www.linkedin.com/in/hassan-elhllos-664188255/" target="_blank" class="contact-link"><span class="icon">in</span> LinkedIn Profile</a>
+      </div>
+    </div>
+    <div>
+      <div class="stat-box" style="padding:2rem;margin-bottom:1rem">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:2px;margin-bottom:1rem">LOCATION</div>
+        <div style="font-size:1rem;font-weight:600">Ismailia, Egypt</div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-top:0.4rem">Available for remote work worldwide</div>
+      </div>
+      <div class="stat-box" style="padding:2rem">
+        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:2px;margin-bottom:1rem">STATUS</div>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <span style="width:8px;height:8px;background:#00e599;border-radius:50%;box-shadow:0 0 8px #00e599;display:inline-block"></span>
+          <span style="font-size:0.9rem">Available for opportunities</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><p>© 2025 Hassan Elhllos — Built with ❤️ &amp; ESP32</p></footer>
+</div><!-- end mainPage -->
+
+
+<!-- ══════════ DETAIL PAGES ══════════ -->
+
+<!-- HA Consulting -->
+<div class="detail-page" id="detail-ha">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('ha')">← BACK</button>
+    <span class="detail-nav-title">EXPERIENCE / HA CONSULTING GROUP</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area">
+      <!--
+      📜 ضيف صورة الشهادة:
+      احذف <div class="cert-placeholder">...</div>
+      وضيف: <img src="cert-ha.jpg" alt="Certificate">
+      -->
+<img src="images/1-Automation-PLC.jpeg" alt="Certificate">
+    </div>
+    <div class="detail-title">Industrial Automation Trainee</div>
+    <div class="detail-org">HA Consulting Group · Sep 2025 — Nov 2025</div>
+    <div class="detail-body">
+      <p>Hands-on industrial automation training focusing on real-world PLC programming and drive configuration in an industrial environment.</p>
+      <ul>
+        <li>Configured Variable Frequency Drives (VFDs) for motor speed control applications</li>
+        <li>Designed classic control circuits including star-delta starters and overload protection</li>
+        <li>Programmed Siemens S7-1200 PLC using TIA Portal — ladder logic and function block diagrams</li>
+        <li>Wired and commissioned Schneider Electric automation platforms</li>
+      </ul>
+    </div>
+    <div class="photos-label">PHOTOS</div>
+    <div class="detail-photos">
+      <!-- ضيف صورك هنا: <img src="ha1.jpg"> -->
+      <div class="detail-photo-slot"> <img src="images/2-demo.jpg" alt="PLC Project"></div>
+      <div class="detail-photo-slot"> <img src="images/3-Automation-classic.jpeg" alt="PLC Project"></div>
+      <div class="detail-photo-slot"> <img src="images/4-Automation-Drive.jpeg" alt="PLC Project"></div>
+<div class="video-thumb" onclick="openVideo('4iNA4lb06zA',event)">
+  <img src="https://img.youtube.com/vi/4iNA4lb06zA/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- Creativa -->
+<div class="detail-page" id="detail-creativa">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('creativa')">← BACK</button>
+    <span class="detail-nav-title">EXPERIENCE / CREATIVA — ITIDA</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area">
+<img src="images/5-IOT.jpg" alt="Certificate">
+    </div>
+    <div class="detail-title">IoT Intern</div>
+    <div class="detail-org">Creativa Innovation Hub (ITIDA) · May 2025 — Jun 2025 · Grade: Excellent</div>
+    <div class="detail-body">
+      <p>Intensive IoT training program at Creativa Innovation Hub, part of ITIDA's initiative to develop Egypt's tech talent ecosystem.</p>
+      <ul>
+        <li>Configured Edge Platforms (ESP32) and established reliable MQTT connectivity</li>
+        <li>Developed and integrated cloud dashboards for real-time IoT monitoring and visualization</li>
+        <li>Team Project: Architected a Smart Agriculture IoT system with seamless edge-to-cloud communication</li>
+        <li>Achieved an Excellent grade — top performance in the cohort</li>
+      </ul>
+    </div>
+    <div class="photos-label">PHOTOS</div>
+    <div class="detail-photos">
+      <div class="detail-photo-slot"> <img src="images/6-IOT.jpg" alt="PLC Project"></div>
+      <div class="detail-photo-slot"> <img src="images/7-IOT.jpg" alt="PLC Project"></div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Digital Fabrication -->
+<div class="detail-page" id="detail-fablab">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('fablab')">← BACK</button>
+    <span class="detail-nav-title">EDUCATION / DIGITAL FABRICATION</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area">
+<img src="images/8-PCB.jpg" alt="PLC Project">
+    </div>
+    <div class="detail-title">Advanced Industrial Electronics & PCB Diploma</div>
+    <div class="detail-org">Digital Fabrication · Ongoing — High-Speed PCB Design & SMPS</div>
+    <div class="detail-body">
+      <p>Advanced diploma bridging the gap between basic prototyping and production-ready hardware design.</p>
+      <ul>
+        <li>High-speed PCB layout: impedance control, signal integrity, differential pairs</li>
+        <li>Switched-Mode Power Supply (SMPS): buck, boost, and flyback topologies</li>
+        <li>Professional Altium Designer usage for complex multi-layer boards</li>
+      </ul>
+    </div>
+    <div class="photos-label">PHOTOS</div>
+    <div class="detail-photos">
+      <div class="detail-photo-slot"><img src="images/9-PCB.jpg" alt="PLC Project"></div>
+      <div class="detail-photo-slot"><img src="images/10-PCB.jpg" alt="PLC Project"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ITI -->
+<div class="detail-page" id="detail-iti">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('iti')">← BACK</button>
+    <span class="detail-nav-title">EXPERIENCE / ITI</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area">
+<img src="images/11-DATA.jpeg" alt="Certificate">
+    </div>
+    <div class="detail-title">Data Analysis Intern</div>
+    <div class="detail-org">Information Technology Institute (ITI) · Jul 2024 — Aug 2024</div>
+    <div class="detail-body">
+      <p>Data analysis internship at ITI — one of Egypt's leading technology training institutes — focused on extracting actionable insights from real-world datasets.</p>
+      <ul>
+        <li>Applied SQL queries and joins to manipulate and extract data from relational databases</li>
+        <li>Data cleaning and preprocessing: handling nulls, duplicates, inconsistent formats</li>
+        <li>Created visualizations and dashboards to communicate findings clearly</li>
+      </ul>
+    </div>
+    <div class="photos-label">PHOTOS</div>
+    <div class="detail-photos">
+      <div class="detail-photo-slot"><img src="images/12-DATA.jpeg" alt="Certificate"></div>
+      <div class="detail-photo-slot"><img src="images/13-DATA.jpg" alt="Certificate"></div>
+<div class="video-thumb" onclick="openVideo('ZUwX4k0PL5U',event)">
+  <img src="https://img.youtube.com/vi/ZUwX4k0PL5U/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- Computer Vision -->
+<div class="detail-page" id="detail-Vision">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('Vision')">← BACK</button>
+    <span class="detail-nav-title">EXPERIENCE / ITI</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area">
+<img src="images/32-VISION.jpg" alt="PLC Project">
+    </div>
+    <div class="detail-title">Computer Vision Volunteer</div>
+    <div class="detail-org">SCU Racing Team (ROV) · Suez Canal University . 2024 — 2025</div>
+<div class="detail-body">
+  <p>Volunteer contribution to the SCU Racing Team's ROV (Remotely Operated Vehicle) project at Suez Canal University — focused on building the computer vision system for underwater operation.</p>
+  <ul>
+    <li>Developed an underwater object detection pipeline using Python and OpenCV on Raspberry Pi</li>
+    <li>Implemented real-time navigation assistance modules to support ROV movement decisions</li>
+    <li>Tuned detection algorithms to handle low-visibility and high-noise underwater conditions</li>
+    <li>Integrated the vision output with the ROV's main control system</li>
+  </ul>
+</div>
+    <div class="photos-label">PHOTOS</div>
+    <div class="detail-photos">
+      <div class="detail-photo-slot"><img src="images/33-VISION.jpg" alt="Certificate"></div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- AWARD -->
+<div class="detail-page" id="detail-award">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="closeDetail('award')">← BACK</button>
+    <span class="detail-nav-title">ACHIEVEMENT / CANAL STARTUP SPRINT</span>
+  </div>
+  <div class="detail-content">
+    <div class="cert-area" style="background:linear-gradient(135deg,rgba(255,215,0,0.06),rgba(255,165,0,0.02));border-color:rgba(255,215,0,0.2);min-height:180px">
+      <!--
+      🏆 ضيف صورة الجائزة / الشهادة:
+      <img src="award-rov.jpg" alt="1st Place">
+      -->
+<img src="images/14-Canal.jpeg" alt="Certificate">
+    </div>
+    <div class="detail-title" style="-webkit-text-stroke:1px gold;color:transparent">1st Place — Canal Startup Sprint</div>
+    <div class="detail-org" style="color:gold">Suez Canal University · Startup Competition · 2024 – 2025</div>
+    <div class="detail-body">
+      <p>Competed in the <strong style="color:gold">Canal Startup Sprint</strong> at Suez Canal University, representing the graduation project: Industrial Controller (ESP32 PLC). Secured <strong style="color:gold">1st place</strong>.</p>
+      <ul>
+        <li>Presented a cost-effective industrial PLC on ESP32 with custom Ladder Diagram software</li>
+        <li>Demonstrated PCB design and early-stage R&amp;D software to the jury panel</li>
+        <li>Secured 1st place among all competing teams</li>
+      </ul>
+      <!-- ✏️ أضيف هنا تفاصيل المسابقة: اسمها، تاريخها، عدد الفرق -->
+    </div>
+    <div class="photos-label" style="color:gold">PHOTOS</div>
+    <div class="detail-photos">
+      <div class="detail-photo-slot" style="border-color:rgba(255,215,0,0.2)"><img src="images/15-Canal.jpeg" alt="Certificate"></div>
+      <div class="detail-photo-slot" style="border-color:rgba(255,215,0,0.2)"><img src="images/16-Canal.jpeg" alt="Certificate"></div>
+      <div class="detail-photo-slot" style="border-color:rgba(255,215,0,0.2)"><img src="images/17-Canal.jpeg" alt="Certificate"></div>
+      <div class="detail-photo-slot" style="border-color:rgba(255,215,0,0.2)"><img src="images/18-Canal.jpeg" alt="Certificate"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ PROJECT POPUPS ══════════ -->
+
+<div class="popup-overlay" id="popup-plc" onclick="closeOutside(event,'plc')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('plc')">✕</button>
+    <div class="popup-media">
+      <!-- 📸 <img src="plc-main.jpg"> OR <video controls><source src="plc.mp4"></video> OR <iframe src="https://www.youtube.com/embed/ID" frameborder="0" allowfullscreen></iframe> -->
+<img src="images/19-PLC.jpg" alt="PLC Project">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">INDUSTRIAL PRODUCT</div>
+      <div class="popup-title">PLC — Industrial Controller</div>
+      <div class="popup-desc">
+        <p>A locally-manufactured industrial PLC designed and built end-to-end from scratch — a complete product rather than a prototype. The custom PCB is engineered to industrial-grade standards so it withstands EMC interference and the rough conditions of a factory floor.</p>
+        <ul>
+          <li>Custom industrial-grade PCB — routed for EMC immunity and heavy factory-duty operation</li>
+          <li>8 digital inputs &amp; 8 digital outputs for real-world process control</li>
+          <li>Modbus communication to interface directly with HMI panels and SCADA / DCS networks</li>
+          <li>Full custom programming IDE — a Ladder Diagram suit resembling TIA Portal, Codesys-style editors</li>
+          <li>3D-printed enclosure designed and printed in-house for reliable installation</li>
+          <li>Remote operation via mobile app plus full SCADA network integration</li>
+        </ul>
+        <p>From PCB layout to the programming environment, the entire control stack is engineered as a complete commercial-grade product.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+        <div class="popup-photo-slot"><img src="images/35-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/36-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/37-PLC.jpg" alt="PCB"></div>
+        <div class="popup-photo-slot"><img src="images/20-PLC.PNG" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/22-PLC.PNG" alt="PCB"></div>
+        <div class="video-thumb" onclick="openVideo('n8FUGgeDqWc',event)">
+          <img src="https://img.youtube.com/vi/n8FUGgeDqWc/hqdefault.jpg" alt="Play video">
+          <div class="video-play"></div>
+        </div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Soldering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">ESP32</span><span class="tag orange">3D Design</span><span class="tag orange">Industrial Grade</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-flomac" onclick="closeOutside(event,'flomac')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('flomac')">✕</button>
+    <div class="popup-media">
+      <img src="images/Flomac/1.jpg" alt="Flomac Automatic Pump Controller">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">REVERSE ENGINEERING & PRODUCT DEVELOPMENT</div>
+      <div class="popup-title">Flomac Automatic Pump Controller</div>
+      <div class="popup-desc">
+        <p>Complete reverse engineering of a proprietary automatic pump control board for a freelance client. Delivered a functionally identical replica PCB with validated prototype, now advancing to mass production — Phase 1 targeting 1,000 units, Phase 2 scaling to 20,000 units.</p>
+        <ul>
+          <li>Performed full reverse engineering: schematic extraction, BOM reconstruction, and PCB layout replication in KiCad</li>
+          <li>Fabricated and tested prototype — validated functional parity with original board</li>
+          <li>Coordinated with Chinese manufacturing partner for production tooling and assembly</li>
+          <li>Managed BOM sourcing through Chinese component suppliers for volume production</li>
+          <li>Collaborated with mechanical engineer on enclosure design for production-ready product</li>
+        </ul>
+        <p>Project demonstrates end-to-end product development capability: from legacy hardware analysis through prototype validation to manufacturing readiness.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+        <div class="popup-photo-slot"><img src="images/Flomac/1.jpg" alt="Flomac Board"></div>
+        <div class="popup-photo-slot"><img src="images/Flomac/2.jpg" alt="Flomac Board"></div>
+        <div class="popup-photo-slot"><img src="images/Flomac/3.jpg" alt="Flomac Board"></div>
+        <div class="popup-photo-slot"><img src="images/Flomac/4.jpg" alt="Flomac Board"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Reverse Engineering</span><span class="tag purple">PCB Design</span><span class="tag purple">KiCad</span><span class="tag">BOM Management</span><span class="tag orange">Manufacturing</span><span class="tag orange">Mass Production</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-smarthome" onclick="closeOutside(event,'smarthome')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('smarthome')">✕</button>
+    <div class="popup-media">
+      <!-- 📸 <img src="smarthome-main.jpg"> -->
+<img src="images/23-Smart.jpeg" alt="PLC Project">    </div>
+    <div class="popup-body">
+      <div class="popup-type">PCB DESIGN</div>
+      <div class="popup-title">Custom Smart Home System</div>
+      <div class="popup-desc">
+        <p>A complete smart home controller on custom PCB — ESP32 brain with 8-channel relay for full appliance control.</p>
+        <ul>
+          <li>Custom PCB designed in KiCad — compact, noise-resistant layout</li>
+          <li>8-channel relay for lights, fans, and other appliances</li>
+          <li>Remote access via ESP RainMaker / Blynk cloud</li>
+          <li>Automation logic: schedules, scenes, condition-based triggers</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/23-Smart.jpeg" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/24-Smart.PNG" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/25-Smart.jpeg" alt="PCB"></div>
+        <div class="video-thumb" onclick="openVideo('7H-34KyS5o8',event)">
+          <img src="https://img.youtube.com/vi/7H-34KyS5o8/hqdefault.jpg" alt="Play video">
+          <div class="video-play"></div>
+        </div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">KiCad</span><span class="tag">MQTT</span><span class="tag orange">8-ch Relay</span><span class="tag purple">PCB Design</span><span class="tag orange">Simulation</span><span class="tag orange">Soldering</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-watch" onclick="closeOutside(event,'watch')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('watch')">✕</button>
+    <div class="popup-media">
+      <!-- 📸 <img src="watch-main.jpg"> -->
+<img src="images/26-watch.jpg" alt="PLC Project">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">WEARABLE / EMBEDDED</div>
+      <div class="popup-title">Smart Health & Activity Watch</div>
+      <div class="popup-desc">
+        <p>Fully custom wearable prototype — biometric sensors with a responsive touch display, built from scratch.</p>
+        <ul>
+          <li>Waveshare Touch LCD + SquareLine Studio custom UI</li>
+          <li>I2C heart rate and SpO2 sensor (MAX30102)</li>
+          <li>SPI temperature sensor for body temp monitoring</li>
+          <li>Optimized power consumption for extended battery life</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="video-thumb" onclick="openVideo('L40XVOAmbuM',event)">
+  <img src="https://img.youtube.com/vi/L40XVOAmbuM/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">I2C/SPI</span><span class="tag orange">SquareLine</span><span class="tag">C++</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-agri" onclick="closeOutside(event,'agri')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('agri')">✕</button>
+    <div class="popup-media">
+      <!-- 📸 <img src="agri-main.jpg"> -->
+<img src="images/27-Agriculture .jpg" alt="PLC Project">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">IOT / AGRICULTURE</div>
+      <div class="popup-title">Smart Agriculture System</div>
+      <div class="popup-desc">
+        <p>Team project at Creativa/ITIDA — end-to-end smart agriculture connecting edge sensors to cloud dashboards.</p>
+        <ul>
+          <li>ESP32 nodes publishing over MQTT (HiveMQ broker)</li>
+          <li>Real-time dashboard: soil moisture, temperature, humidity</li>
+          <li>Remote automated irrigation control</li>
+          <li>JSON-based edge-to-cloud data exchange</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/28-Agriculture .jpg" alt="PCB"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag">MQTT</span><span class="tag orange">HiveMQ</span><span class="tag purple">Dashboard</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-rov" onclick="closeOutside(event,'rov')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('rov')">✕</button>
+    <div class="popup-media">
+      <!-- 📸 <img src="rov-main.jpg"> -->
+<img src="images/29-ROV.jpeg" alt="PLC Project">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">COMPUTER VISION / ROBOTICS</div>
+      <div class="popup-title">ROV — Underwater Detection </div>
+      <div class="popup-desc">
+        <p>CV system for underwater ROV — SCU Racing Team that won 1st place in competition.</p>
+        <ul>
+          <li>Real-time object detection for underwater environments — Python + OpenCV</li>
+          <li>Navigation module integration on Raspberry Pi</li>
+          <li>Tuned detection for low-visibility underwater conditions</li>
+          <li>Integrated with ROV motor control system</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/30-ROV.jpg" alt="PCB"></div>
+<div class="popup-photo-slot"><img src="images/31-ROV.jpeg" alt="PCB"></div>
+<div class="video-thumb" onclick="openVideo('6IhQnSXap0w',event)">
+  <img src="https://img.youtube.com/vi/6IhQnSXap0w/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag purple">Python</span><span class="tag orange">Raspberry Pi</span><span class="tag">OpenCV</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-classic" onclick="closeOutside(event,'classic')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('classic')">✕</button>
+    <div class="popup-media">
+<img src="images/38-classic.jpg" alt="Smart Classic Control Panel">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">INDUSTRIAL AUTOMATION</div>
+      <div class="popup-title">Smart Classic Control Panel</div>
+      <div class="popup-desc">
+        <p>A retro-modern approach to classic control — this project lets a conventional electromechanical control panel be operated directly from a mobile phone.</p>
+        <ul>
+          <li>ESP32 brain driving a relay module to switch the existing classic control circuit</li>
+          <li>Mobile app for remote start / stop and quick status monitoring</li>
+          <li>Keeps the original panel intact — smart action in parallel, with automation logic</li>
+          <li>Pair of digital inputs used for panel feedback (running / stopped)</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="video-thumb" onclick="openVideo('5_l7fvHgvWA',event)">
+  <img src="https://img.youtube.com/vi/5_l7fvHgvWA/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Relay Module</span><span class="tag">Mobile Control</span><span class="tag purple">Classic Control</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-ices" onclick="closeOutside(event,'ices')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('ices')">✕</button>
+    <div class="popup-media">
+<img src="images/39- ICES.jpg" alt="Cold Storage Monitoring System">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">INDUSTRIAL IOT</div>
+      <div class="popup-title">Cold Storage Monitoring &amp; Control</div>
+      <div class="popup-desc">
+        <p>Monitoring and control for large fruit cold-storage facilities. Two custom ESP32 PCBs are installed on the giant control panels that watch the chamber — one actively reading every fault lamp, the other tracking temperature from industrial sensors while controlling the whole power feed.</p>
+        <ul>
+          <li>Two custom ESP32 boards — fault detection + temperature / power control</li>
+          <li>Reads industrial temperature sensors and indicator-lamp signals from the panel</li>
+          <li>Full system control: power ON / OFF and cooling control loop</li>
+          <li>Mobile application with real-time monitoring and instant fault notifications</li>
+          <li>Custom 3D-printed enclosures designed for the panel environment</li>
+        </ul>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/39- ICES.jpg" alt="Cold Storage"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag orange">Industrial Sensors</span><span class="tag">Mobile App</span><span class="tag purple">3D Enclosure</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-stardelta" onclick="closeOutside(event,'stardelta')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('stardelta')">✕</button>
+    <div class="popup-media">
+<img src="images/39-star delta.jpg" alt="Star-Delta Starter Control Panel">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">CLASSIC CONTROL</div>
+      <div class="popup-title">Star-Delta Starter Control Panel</div>
+      <div class="popup-desc">
+        <p>A star-delta starter protects large 3-phase induction motors at start-up. Windings first connect in star (Y) — lowering starting voltage and inrush current — then switch to delta for full-power running, all timed automatically.</p>
+        <ul>
+          <li>Contactors for star, delta and main line switching</li>
+          <li>Timer-based automatic transition from star to delta</li>
+          <li>Overload relay protecting the motor from sustained overcurrent</li>
+          <li>Neat panel wiring, indicators and start / stop control</li>
+        </ul>
+        <p>This panel is a classic-control build focused on reliable, safe motor starting in industrial applications.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="video-thumb" onclick="openVideo('ICle2c08i5g',event)">
+  <img src="https://img.youtube.com/vi/ICle2c08i5g/hqdefault.jpg" alt="Play video">
+  <div class="video-play"></div>
+</div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag orange">Contactors</span><span class="tag purple">Timer</span><span class="tag">Motor Starter</span><span class="tag orange">Wiring</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popup-devkit" onclick="closeOutside(event,'devkit')">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closeProject('devkit')">✕</button>
+    <div class="popup-media">
+<img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit">
+    </div>
+    <div class="popup-body">
+      <div class="popup-type">PCB DESIGN</div>
+      <div class="popup-title">ESP32 DevKit Board</div>
+      <div class="popup-desc">
+        <p>A custom development board built to mirror the original ESP32 DevKit — engineered in KiCad with its own USB-UART and an automatic programming circuit.</p>
+        <ul>
+          <li>ESP32-WROOM module with the classic 2×20 pinout — GPIO, power and boot pins</li>
+          <li>Onboard USB-UART bridge (CP2102-class) fed through automatic boot circuitry</li>
+          <li>Auto-programming: connect a cable and flash — no need to hold the BOOT button</li>
+          <li>Onboard 3.3 V regulation with stable power path</li>
+          <li>Boot / EN / RESET controls and status LED indicators</li>
+        </ul>
+        <p>Built to spec, then pushed further — the auto-programming header makes flashing effortless compared to stock boards.</p>
+      </div>
+      <div class="photos-label-sm">MORE PHOTOS</div>
+      <div class="popup-photos">
+<div class="popup-photo-slot"><img src="images/40- ESP32 DevKit.png" alt="ESP32 DevKit"></div>
+      </div>
+      <div class="skill-tags" style="margin-top:1rem"><span class="tag">ESP32</span><span class="tag purple">Auto-programming</span><span class="tag">USB-UART</span><span class="tag purple">KiCad</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ IMAGE LIGHTBOX ══════════ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-btn lb-nav lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
+  <button class="lb-btn lb-nav lb-next" id="lbNext" aria-label="Next image">›</button>
+  <div class="lb-counter" id="lbCounter">0 / 0</div>
+  <div class="lb-stage" id="lbStage">
+    <div class="lb-frame" id="lbFrame">
+      <img class="lb-img" id="lbImg" alt="">
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ VIDEO PLAYER ══════════ -->
+<div class="video-lightbox" id="videoBox" aria-hidden="true">
+  <button class="lb-btn lb-close video-close" id="videoClose" aria-label="Close video">✕</button>
+  <div class="video-stage" id="videoStage"></div>
+</div>
+
+<script>
+  // GLOW
+  const glow = document.getElementById('glow');
+  document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; });
+
+  // SCROLL REVEAL
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.15});
+  document.querySelectorAll('.timeline-item, .project-card').forEach(el => obs.observe(el));
+  document.querySelectorAll('.project-card').forEach((c,i) => { c.style.transitionDelay=(i*0.08)+'s'; });
+
+  // DETAIL PAGES
+  function openDetail(id) {
+    document.querySelectorAll('.detail-page').forEach(p => p.classList.remove('active'));
+    const p = document.getElementById('detail-'+id);
+    if(p){ p.classList.add('active'); p.scrollTop=0; document.body.style.overflow='hidden'; }
+  }
+  function closeDetail(id) {
+    const p = document.getElementById('detail-'+id);
+    if(p) p.classList.remove('active');
+    document.body.style.overflow='';
+  }
+
+  // PROJECT POPUPS
+  function openProject(id) {
+    const p = document.getElementById('popup-'+id);
+    if(p){ p.classList.add('active'); document.body.style.overflow='hidden'; }
+  }
+  function closeProject(id) {
+    const p = document.getElementById('popup-'+id);
+    if(p) p.classList.remove('active');
+    document.body.style.overflow='';
+  }
+  function closeOutside(e, id) { if(e.target===e.currentTarget) closeProject(id); }
+
+  // ESC + ARROW keys
+  document.addEventListener('keydown', e => {
+    if(e.key==='Escape'){
+      if(document.getElementById('videoBox').classList.contains('active')){ closeVideo(); return; }
+      if(document.getElementById('lightbox').classList.contains('active')){ closeLightbox(); return; }
+      document.querySelectorAll('.detail-page.active').forEach(p => closeDetail(p.id.replace('detail-','')));
+      document.querySelectorAll('.popup-overlay.active').forEach(p => closeProject(p.id.replace('popup-','')));
+    } else if(document.getElementById('videoBox').classList.contains('active')){
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); }
+    } else if(document.getElementById('lightbox').classList.contains('active')){
+      if(e.key==='ArrowLeft'){ e.preventDefault(); navLightbox(-1); }
+      else if(e.key==='ArrowRight'){ e.preventDefault(); navLightbox(1); }
+    }
+  });
+
+  // ═══ VIDEO PLAYER ═══
+  const videoBox = document.getElementById('videoBox');
+  const videoStage = document.getElementById('videoStage');
+  function openVideo(src, ev){
+    if(ev) ev.stopPropagation();
+    videoStage.innerHTML = '<iframe src="https://www.youtube.com/embed/'+src+'?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="width:100%;height:100%"></iframe>';
+    videoBox.classList.add('active');
+    videoBox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeVideo(){
+    videoBox.classList.remove('active');
+    videoBox.setAttribute('aria-hidden','true');
+    videoStage.innerHTML='';
+    document.body.style.overflow='';
+  }
+  document.getElementById('videoClose').addEventListener('click', e=>{ e.stopPropagation(); closeVideo(); });
+  videoBox.addEventListener('click', e=>{ if(e.target===videoBox) closeVideo(); });
+
+  // ═══ IMAGE LIGHTBOX ═══
+  const lightBox = document.getElementById('lightbox');
+  const lbStage = document.getElementById('lbStage');
+  const lbFrame = document.getElementById('lbFrame');
+  const lbImg = document.getElementById('lbImg');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbPrevBtn = document.getElementById('lbPrev');
+  const lbNextBtn = document.getElementById('lbNext');
+  const lbCloseBtn = document.getElementById('lbClose');
+  const LB_MIN = 1, LB_MAX = 12;
+  let lbGallery = [];
+  let lbCur = 0;
+  let lbState = { scale:1, tx:0, ty:0 };
+  let lbSize = { w:600, h:600 };
+  let lbPts = new Map();
+  let lbDrag = null, lbPinch = null, lbMoved = false;
+
+  function lbApply(){
+    lbImg.style.transform = 'translate3d('+lbState.tx.toFixed(2)+'px,'+lbState.ty.toFixed(2)+'px,0) scale('+lbState.scale.toFixed(3)+')';
+  }
+  function lbReset(){ lbState.scale=1; lbState.tx=0; lbState.ty=0; lbApply(); }
+  function lbClamp(){
+    if(lbState.scale<=1){ lbState.tx=0; lbState.ty=0; return; }
+    const mx=(lbSize.w*(lbState.scale-1))/2, my=(lbSize.h*(lbState.scale-1))/2;
+    lbState.tx=Math.max(-mx,Math.min(mx,lbState.tx));
+    lbState.ty=Math.max(-my,Math.min(my,lbState.ty));
+  }
+  function lbZoomAt(cx,cy,k){
+    const s1=Math.min(LB_MAX,Math.max(LB_MIN,lbState.scale*k));
+    const kk=s1/lbState.scale;
+    lbState.tx=cx-(cx-lbState.tx)*kk;
+    lbState.ty=cy-(cy-lbState.ty)*kk;
+    lbState.scale=s1; lbClamp(); lbApply();
+  }
+  function lbMeasure(){
+    const w=lbImg.offsetWidth, h=lbImg.offsetHeight;
+    if(w&&h){ lbSize.w=w; lbSize.h=h; lbClamp(); lbApply(); }
+  }
+  function lbLoad(){
+    const el=lbGallery[lbCur];
+    if(!el) return;
+    lbImg.src=(el.currentSrc||el.src);
+    lbImg.alt=(el.alt||'');
+    lbCounter.textContent=(lbCur+1)+' / '+lbGallery.length;
+    lbCounter.style.display=lbGallery.length>1?'block':'none';
+    lbReset();
+    if(lbImg.complete && lbImg.naturalWidth){ lbImg.classList.remove('switching'); lbMeasure(); }
+  }
+  function openLightbox(imgs,index){
+    if(!imgs||!imgs.length) return;
+    lbGallery=imgs; lbCur=index;
+    lightBox.classList.add('active');
+    lightBox.setAttribute('aria-hidden','false');
+    lbFrame.classList.remove('enter'); void lbFrame.offsetWidth; lbFrame.classList.add('enter');
+    lbImg.classList.remove('switching');
+    lbLoad();
+  }
+  function closeLightbox(){
+    lightBox.classList.remove('active');
+    lightBox.setAttribute('aria-hidden','true');
+    lbGallery=[]; lbCur=0; lbReset();
+    lbPts.clear(); lbDrag=null; lbPinch=null; lbMoved=false;
+  }
+  function navLightbox(dir){
+    if(!lbGallery.length) return;
+    const next=(lbCur+dir+lbGallery.length)%lbGallery.length;
+    if(next===lbCur) return;
+    lbCur=next;
+    lbImg.classList.add('switching');
+    setTimeout(lbLoad, 160);
+  }
+
+  function initLightbox(){
+    const groups=[];
+    document.querySelectorAll('.popup-overlay').forEach(pop=>{
+      const els=[];
+      const m=pop.querySelector('.popup-media img');
+      if(m) els.push(m);
+      pop.querySelectorAll('.popup-photos img').forEach(i=>{ if(!i.closest('.video-thumb')) els.push(i); });
+      if(els.length) groups.push(els);
+    });
+    document.querySelectorAll('.detail-photos').forEach(con=>{
+      const els=[...con.querySelectorAll('img')].filter(i=>!i.closest('.video-thumb'));
+      if(els.length) groups.push(els);
+    });
+    groups.forEach(els=>{
+      els.forEach((el,idx)=>{
+        el.addEventListener('click', e=>{ e.stopPropagation(); openLightbox(els, idx); });
+      });
+    });
+
+    lbCloseBtn.addEventListener('click', e=>{ e.stopPropagation(); closeLightbox(); });
+    lbPrevBtn.addEventListener('click', e=>{ e.stopPropagation(); navLightbox(-1); });
+    lbNextBtn.addEventListener('click', e=>{ e.stopPropagation(); navLightbox(1); });
+
+    lbStage.addEventListener('wheel', e=>{
+      e.preventDefault();
+      const r=lbStage.getBoundingClientRect();
+      const cx=e.clientX-r.left-r.width/2, cy=e.clientY-r.top-r.height/2;
+      lbZoomAt(cx, cy, e.deltaY<0?1.15:1/1.15);
+    }, {passive:false});
+
+    lbStage.addEventListener('dblclick', e=>{
+      e.stopPropagation();
+      if(lbState.scale>1) lbReset();
+      else { const r=lbStage.getBoundingClientRect(); const cx=e.clientX-r.left-r.width/2, cy=e.clientY-r.top-r.height/2; lbZoomAt(cx, cy, 2.5); }
+    });
+
+    lbStage.addEventListener('pointerdown', e=>{
+      e.stopPropagation();
+      lbStage.setPointerCapture(e.pointerId);
+      lbPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      lbMoved=false;
+      if(lbPts.size===1){
+        lbPinch=null;
+        lbDrag={x:e.clientX,y:e.clientY,tx:lbState.tx,ty:lbState.ty};
+      } else if(lbPts.size===2){
+        lbDrag=null;
+        const a=[...lbPts.values()][0], b=[...lbPts.values()][1];
+        lbPinch={ d:Math.hypot(a.x-b.x,a.y-b.y), s:lbState.scale };
+      }
+    });
+
+    lbStage.addEventListener('pointermove', e=>{
+      e.stopPropagation();
+      if(!lbPts.has(e.pointerId)) return;
+      lbPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      const r=lbStage.getBoundingClientRect();
+      if(lbPts.size===2 && lbPinch){
+        lbMoved=true;
+        const a=[...lbPts.values()][0], b=[...lbPts.values()][1];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        const fx=(a.x+b.x)/2-r.left-r.width/2;
+        const fy=(a.y+b.y)/2-r.top-r.height/2;
+        const s1=Math.min(LB_MAX,Math.max(LB_MIN,lbPinch.s*(d/lbPinch.d)));
+        const kk=s1/lbState.scale;
+        lbState.tx=fx-(fx-lbState.tx)*kk;
+        lbState.ty=fy-(fy-lbState.ty)*kk;
+        lbState.scale=s1; lbClamp(); lbApply();
+      } else if(lbPts.size===1 && lbDrag){
+        const dx=e.clientX-lbDrag.x, dy=e.clientY-lbDrag.y;
+        if(Math.abs(dx)>3||Math.abs(dy)>3) lbMoved=true;
+        if(lbState.scale>1){
+          lbState.tx=lbDrag.tx+dx; lbState.ty=lbDrag.ty+dy;
+          lbClamp(); lbApply();
+        }
+      }
+    });
+
+    lbStage.addEventListener('pointerup', e=>{
+      e.stopPropagation();
+      lbPts.delete(e.pointerId);
+      if(lbPts.size===1){
+        const a=[...lbPts.values()][0];
+        lbDrag={x:a.x,y:a.y,tx:lbState.tx,ty:lbState.ty};
+      } else if(lbPts.size===0){
+        if(lbDrag && lbState.scale<=1){
+          const dx=e.clientX-lbDrag.x;
+          if(Math.abs(dx)>60) navLightbox(dx<0?1:-1);
+        }
+        lbDrag=null; lbPinch=null;
+      }
+    });
+
+    lbStage.addEventListener('pointercancel', e=>{
+      lbPts.delete(e.pointerId);
+      if(lbPts.size===0){ lbDrag=null; lbPinch=null; }
+    });
+
+    lbStage.addEventListener('click', e=>{
+      if(e.target!==lbStage) return;
+      if(lbMoved){ lbMoved=false; return; }
+      closeLightbox();
+    });
+
+    lbImg.addEventListener('load', ()=>{ lbImg.classList.remove('switching'); lbMeasure(); });
+  }
+  initLightbox();
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+% ======================================================================
+% Hassan Elhllos - Embedded Systems & PCB Design Engineer - Resume
+% Compile with pdflatex (or Tectonic). Single A4 page, ATS-friendly.
+% ======================================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[a4paper,left=1.05cm,right=1.05cm,top=0.55cm,bottom=0.55cm]{geometry}
+\usepackage{enumitem}
+\usepackage[compact]{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Colors ----------
+\definecolor{ink}{HTML}{141720}
+\definecolor{muted}{HTML}{3F4654}
+\definecolor{accent}{HTML}{0E7C86}
+\definecolor{divider}{HTML}{C9CFD9}
+\pagecolor{white}
+\color{ink}
+
+% ---------- Spacing ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\renewcommand{\baselinestretch}{0.92}
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {}
+  {0pt}
+  {}
+  [\vspace{-5pt}{\color{divider}{\rule{\linewidth}{0.8pt}}\vspace{3pt}}]
+\titlespacing*{\section}{0pt}{4pt}{1.5pt}
+
+% ---------- Custom helpers ----------
+\newenvironment{chitems}
+  {\begin{itemize}[leftmargin=0.9em,itemsep=0pt,topsep=0.2pt,partopsep=0pt,parsep=0pt,labelsep=0.35em]}
+  {\end{itemize}}
+
+\newcommand{\pos}[3]{\textbf{#1}\hfill{\bfseries\color{accent}#2}\par\vspace{-2pt}{\color{muted}\textbf{#3}}\par\nobreak\vspace{1pt}}
+
+\AtBeginDocument{\small}
+
+% ---------- Document ----------
+\begin{document}
+
+\begin{center}
+  {\fontsize{22}{26}\selectfont\bfseries Hassan Elhllos}\\[2pt]
+  {\fontsize{11.5}{14}\selectfont\bfseries\color{accent}Embedded Systems \& PCB Design Engineer}\\[2pt]
+  {\color{muted}\small Ismailia, Egypt \textbar\ 
+  \href{mailto:hassanelhllos@gmail.com}{hassanelhllos@gmail.com} \textbar\ 
+  +20 120 197 8685 \textbar\ 
+  \href{https://www.linkedin.com/in/hassan-elhllos-664188255/}{linkedin.com/in/hassan-elhllos} \textbar\ \href{https://hassanelhllos2020.github.io/portfolio-v2/}{Portfolio}}
+\end{center}
+
+\vspace{1pt}
+{\color{divider}{\rule{\linewidth}{1.4pt}}}\vspace{3pt}
+
+\section*{PROFESSIONAL SUMMARY}
+Electrical Engineering graduate specializing in Embedded Systems, PCB Design, IoT, and Industrial Automation. 3+ years of freelance experience developing custom hardware and smart devices end-to-end, from schematic and PCB design to C/C++ firmware, connectivity, and prototype validation. Hands-on experience with product development, reverse engineering, BOM sourcing, and manufacturing coordination. 1st Place winner at Suez Canal University's Canal Startup Sprint with a custom industrial PLC.
+
+\section*{TECHNICAL SKILLS}
+\textbf{Embedded Systems:} ESP32, ESP12E/F, STM32, Arduino, C/C++, GPIO, Timers, Interrupts, Firmware Development\par
+\textbf{PCB and Hardware Design:} KiCad, Altium Designer, Schematic Design, PCB Layout, PCB Routing, EMC-aware Design, Reverse Engineering, BOM Management, Soldering (THT/SMD)\par
+\textbf{Industrial Automation:} Siemens S7-1200, Schneider PLC, Ladder Logic, Modbus RTU (RS485), VFD Configuration, Classic Control, Star-Delta, Motor Protection\par
+\textbf{Connectivity and Protocols:} MQTT, HTTP, UART, SPI, I2C, RS485, Wi-Fi, BLE, ESP RainMaker, Blynk, HiveMQ\par
+\textbf{Software and Tools:} Python, SQL, Git/GitHub, Ladder Diagram, Proteus, Dashboard Development, Oscilloscope, Multimeter, Hardware Troubleshooting\par
+\textbf{Computer Vision:} Raspberry Pi, OpenCV, Object Detection, Underwater Vision
+
+\section*{EXPERIENCE}
+\pos{Independent IoT \& Hardware Developer}{2023 -- Present}{Freelance}
+\begin{chitems}
+  \item Develop custom IoT products and complex PCB designs for client and academic projects, covering hardware, firmware, connectivity, and prototype validation.
+  \item Handle end-to-end product development tasks including reverse engineering, BOM preparation, supplier coordination, and manufacturing readiness.
+\end{chitems}
+
+\pos{Industrial Automation Trainee}{Sep 2025 -- Nov 2025}{HA Consulting Group}
+\begin{chitems}
+  \item Configured VFDs and designed classic control circuits including star-delta starters and overload protection.
+  \item Programmed Siemens S7-1200 and Schneider PLC systems using industrial control logic.
+\end{chitems}
+
+\pos{Advanced Industrial Electronics \& PCB Diploma}{Dec 2025 -- Feb 2026}{Digital Fabrication --- High-Speed PCB Design, Signal Integrity \& SMPS}
+\begin{chitems}
+  \item Advanced PCB design covering high-speed layout, impedance control, signal integrity, differential pairs, multi-layer Altium workflows, and SMPS design.
+\end{chitems}
+
+\pos{IoT Intern}{May 2025 -- Jun 2025}{Creativa Innovation Hub (ITIDA) --- Grade: Excellent}
+\begin{chitems}
+  \item Configured ESP32 edge platforms, established MQTT communication, and developed cloud dashboards for real-time monitoring.
+  \item Architected a Smart Agriculture system connecting field devices to cloud services through edge-to-cloud MQTT communication.
+\end{chitems}
+
+\pos{Computer Vision Volunteer}{2024 -- 2025}{SCU Racing Team (ROV), Suez Canal University}
+\begin{chitems}
+  \item Developed underwater object-detection and navigation modules using Python and OpenCV on Raspberry Pi.
+\end{chitems}
+
+\pos{Data Analysis Intern}{Jul 2024 -- Aug 2024}{Information Technology Institute (ITI)}
+\begin{chitems}
+  \item Applied SQL, data cleaning, visualization, and dashboards to extract and communicate insights from datasets.
+\end{chitems}
+
+\section*{SELECTED PROJECTS}
+\textbf{Industrial PLC Controller:} Designed a locally manufactured ESP32-based PLC with EMC-aware PCB, 8 inputs/8 outputs, Modbus communication for HMI/SCADA, custom Ladder-programming software, and 3D-printed enclosure; \textbf{1st Place} at Canal Startup Sprint.\par
+\textbf{Flomac Automatic Pump Controller:} Reverse-engineered a proprietary control board and reproduced its schematic, BOM, and PCB in KiCad; validated a functional prototype and coordinated manufacturing/sourcing for production targeting 1,000 units, with a planned scale to 20,000 units.\par
+\textbf{Custom Smart Home System:} Developed an ESP32-based controller with an 8-channel relay interface on a custom KiCad PCB, supporting remote access and automation through ESP RainMaker/Blynk.\par
+\textbf{Smart Health \& Activity Watch:} Built an ESP32 wearable prototype with touchscreen UI and biometric sensing for heart rate, SpO2, and temperature using I2C/SPI peripherals.\par
+\textbf{Industrial IoT Systems:} Built ESP32-based monitoring and control systems for cold-storage panels and conventional motor-control panels, adding remote monitoring, control, and fault alerts.
+
+\section*{EDUCATION}
+\pos{B.Sc. in Electrical Engineering}{2021 -- 2026}{Suez Canal University, Faculty of Engineering}
+\vspace{2pt}
+\pos{Diploma in Information Technology}{2016 -- 2021}{Advanced Technical School -- Ismailia, Egypt}
+\section*{HONORS AND CERTIFICATIONS}
+\textbf{1st Place} --- Canal Startup Sprint, Suez Canal University, with the Industrial Controller (ESP32 PLC) graduation project.\par
+\textbf{Certifications:} Industrial Automation (HA Consulting Group); IoT Internship -- Excellent (Creativa Innovation Hub / ITIDA); Data Analysis (ITI).
+
+\section*{LANGUAGES}
+Arabic (Native) and English (Professional)
+
+\end{document}
